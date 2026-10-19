@@ -73,7 +73,7 @@ h1{
 }
 
 .foto{margin:3.25rem 0 0;width:100%;aspect-ratio:4/5;max-width:100%;overflow:hidden;background:var(--oliva-fundo)}
-.foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform-origin:50% 40%;will-change:transform}
 .place{margin-top:1.5rem}
 
 @media (min-width:34rem){ .btns{grid-template-columns:1fr 1fr} }
@@ -98,7 +98,7 @@ h1{
   <p class="date"><time datetime="2027-07-24">24.07.2027</time></p>
   <p class="place">Asa Sul, Brasília</p>
 
-  <figure class="foto"><img src="foto.jpg" width="1080" height="1440" alt="Patrícia e Alexandre sorrindo um para o outro, ao ar livre, entre palmeiras" loading="lazy"></figure>
+  <figure class="foto"><img src="foto-casal.jpg" width="1440" height="1920" alt="Patrícia e Alexandre de rosto colado, ao ar livre, entre palmeiras" loading="lazy"></figure>
 
   <section class="cal" aria-labelledby="cal-label">
     <p class="cal-label" id="cal-label">Adicione ao seu calendário</p>
@@ -114,5 +114,21 @@ h1{
   </section>
 
 </main>
+<script>
+(function(){
+  var img=document.querySelector('.foto img');
+  if(!img||!window.matchMedia||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var fig=img.parentNode, ticking=false, MAX=0.12;
+  function update(){
+    ticking=false;
+    var r=fig.getBoundingClientRect(), vh=window.innerHeight||1;
+    var p=(vh-r.top)/(vh+r.height); p=Math.max(0,Math.min(1,p));
+    p=p*p*(3-2*p);
+    img.style.transform='scale('+(1+MAX*p).toFixed(4)+')';
+  }
+  function req(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  addEventListener('scroll',req,{passive:true}); addEventListener('resize',req); update();
+})();
+</script>
 </body>
 </html>
