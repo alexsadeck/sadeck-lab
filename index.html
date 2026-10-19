@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sadeck Lab</title>
+<meta name="description" content="Projetos, páginas e experimentos de Alex Sadeck.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2f0eb;
+    --ink: #151515;
+    --muted: #6b6862;
+    --line: #d6d2c9;
+    --accent: #e8552b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121212; --ink: #f2f0eb; --muted: #8f8b84; --line: #2b2a28; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Inter Tight", system-ui, sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column;
+    padding: 24px 16px;
+  }
+  .wrap { width: 100%; max-width: 960px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; }
+  header, footer {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--line); padding-bottom: 12px;
+  }
+  footer { border-bottom: 0; border-top: 1px solid var(--line); padding: 12px 0 0; margin-top: 48px; }
+  main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 64px 0; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); margin-bottom: 20px; }
+  h1 { font-weight: 800; font-size: clamp(56px, 13vw, 156px); line-height: .88; letter-spacing: -.04em; }
+  h1 span { color: var(--accent); }
+  p.lead { max-width: 520px; margin-top: 28px; font-size: 18px; line-height: 1.5; color: var(--muted); }
+  .grid { margin-top: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border-top: 1px solid var(--line); }
+  .cell { padding: 18px 0; border-bottom: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+  .cell b { display: block; font-family: "Inter Tight", sans-serif; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+  .cell { color: var(--muted); }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><span>lab.sadeck.art</span><span>Brasília, BR</span></header>
+  <main>
+    <div class="tag">// v0.1 · em construção</div>
+    <h1>Sadeck<br>Lab<span>.</span></h1>
+    <p class="lead">Um espaço para publicar projetos, páginas, protótipos e experimentos. Cada coisa nova ganha seu próprio endereço aqui dentro.</p>
+    <div class="grid">
+      <div class="cell"><b>Projetos</b>em breve</div>
+      <div class="cell"><b>Protótipos</b>em breve</div>
+      <div class="cell"><b>Experimentos</b>em breve</div>
+    </div>
+  </main>
+  <footer><span>© 2026 Alex Sadeck</span><span>sadeck.art</span></footer>
+</div>
+</body>
+</html>
