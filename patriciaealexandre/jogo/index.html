@@ -75,6 +75,28 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   font-family:var(--serif);font-size:1rem;letter-spacing:.08em;text-transform:uppercase;border:0;cursor:pointer}
 .botao.sec{background:transparent;color:var(--linho);box-shadow:inset 0 0 0 1px var(--salvia)}
 .link{margin-top:1rem;color:var(--salvia);font-size:.95rem;text-decoration:underline;text-underline-offset:.25em}
+
+/* Computador: tela inicial e final proporcionais ao monitor */
+@media (min-width:900px){
+  .tela h1{font-size:clamp(3rem,4.2vw,5.2rem)}
+  #tela-inicio .guia{font-size:clamp(1.2rem,1.35vw,1.6rem);max-width:36rem;margin-top:1.1rem}
+  #tela-inicio .guia.sub{font-size:clamp(1.1rem,1.2vw,1.45rem)}
+  .escolha-titulo{font-size:clamp(.95rem,.95vw,1.15rem);margin-top:2.4rem}
+  #tela-inicio .escolha{gap:clamp(1.2rem,2vw,2.4rem);margin-top:1.3rem}
+  .carta{width:clamp(12rem,13vw,16rem);padding:clamp(1.2rem,1.6vh,1.8rem) 1rem 1.2rem;gap:.8rem}
+  .carta img{height:clamp(13rem,26vh,20rem)}
+  .carta span{font-size:clamp(1.6rem,1.8vw,2.2rem)}
+  .topo-tela,.hud{max-width:min(92vw,72rem)}
+  .voltar{height:42px;font-size:1rem;padding:0 14px 0 8px}
+  .tempo{font-size:1.7rem}
+  .slot{width:48px;height:48px}.slot canvas{width:40px;height:40px}
+  .base{width:min(100%,32rem)}
+  .data-final{font-size:clamp(4rem,6vw,6.5rem)}
+  #tela-fim .guia{font-size:clamp(1.2rem,1.35vw,1.6rem);max-width:34rem}
+  .trupe{gap:14px;margin-top:1.4rem;transform:scale(1.4);transform-origin:center top;margin-bottom:1.6rem}
+  .acoes{width:min(100%,28rem)}
+  .botao{min-height:3.8rem;font-size:1.15rem}
+}
 </style>
 </head>
 <body>
@@ -351,7 +373,7 @@ function arbusto(c,r){
   ctx.fillStyle='rgba(30,36,20,.35)';ctx.fillRect(x+2,y+14,12,2);
   ctx.drawImage(ARB[(c*7+r*3)%2],x,y);
 }
-function muro(c,r){ctx.fillStyle='#efece2';ctx.fillRect(c*T,r*T,T,T);}
+function muro(c,r){ctx.fillStyle='#545d42';ctx.fillRect(c*T,r*T,T,T);}
 function bomba(b){
   var pis=(b.t<.6)?(Math.floor(b.t*12)%2):0,s=1+Math.sin((FUSE-b.t)*10)*.06;
   ctx.save();ctx.translate(b.c*T+8,b.r*T+9);ctx.scale(s,s);
