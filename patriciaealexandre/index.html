@@ -337,5 +337,19 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   addEventListener('pointerdown',function(){alvo=null;anim=false;});
 })();
 </script>
+<script>
+/* Botão de descer: rola até o fim da capa, revelando o calendário */
+(function(){
+  var b=document.querySelector('.desce'), capa=document.querySelector('.capa'); if(!b||!capa) return;
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    var alvo=capa.offsetHeight, calmo=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(calmo){window.scrollTo(0,alvo);return;}
+    var ini=window.scrollY, dist=alvo-ini, t0=null, dur=900;
+    function passo(t){if(t0===null)t0=t;var k=Math.min(1,(t-t0)/dur),e2=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;window.scrollTo(0,ini+dist*e2);if(k<1)requestAnimationFrame(passo);}
+    requestAnimationFrame(passo);
+  });
+})();
+</script>
 </body>
 </html>
