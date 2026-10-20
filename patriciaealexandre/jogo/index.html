@@ -23,7 +23,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   padding:calc(env(safe-area-inset-top,0px) + 10px) max(12px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(12px, env(safe-area-inset-left,0px))}
 .hud{display:flex;align-items:center;justify-content:space-between;gap:12px;height:48px;flex:none;max-width:30rem;width:100%;margin:0 auto}
 .hud-esq{display:flex;align-items:center;gap:12px}
-.voltar{appearance:none;border:0;background:transparent;color:var(--linho);display:flex;align-items:center;gap:2px;height:36px;padding:0 10px 0 4px;font-family:var(--serif);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:inset 0 0 0 1px rgba(196,195,165,.6);cursor:pointer}
+.voltar{appearance:none;border:0;background:transparent;color:var(--linho);text-decoration:none;display:flex;align-items:center;gap:2px;height:36px;padding:0 10px 0 4px;font-family:var(--serif);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:inset 0 0 0 1px rgba(196,195,165,.6);cursor:pointer}
 .voltar svg{width:18px;height:18px}
 .voltar:focus-visible{outline:2px solid var(--linho);outline-offset:2px}
 .tempo{font-size:1.4rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;min-width:4ch}
@@ -55,6 +55,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:inset 0 0 0 1px var(--salvia),inset 0 0 0 6px var(--linho),inset 0 0 0 7px var(--salvia)}
 .carta img{display:block;height:128px;width:auto}
 .carta span{font-size:1.35rem;font-style:italic}
+.topo-tela{align-self:stretch;display:flex;flex:none;max-width:30rem;width:100%;margin:0 auto}
 .miolo{margin:auto 0;display:flex;flex-direction:column;align-items:center}
 .escolha-titulo{margin:1.6rem 0 0;font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--salvia)}
 #tela-inicio .guia{margin-top:.8rem;font-size:1.02rem}
@@ -74,7 +75,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 <body>
 <div class="app">
   <div class="hud">
-    <div class="hud-esq"><button class="voltar" id="btn-voltar" aria-label="Voltar para a página inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>Início</span></button><div class="tempo" id="tempo" aria-label="Tempo">0:00</div></div>
+    <div class="hud-esq"><a class="voltar" href="../" aria-label="Voltar para a página inicial do convite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>Início</span></a><div class="tempo" id="tempo" aria-label="Tempo">0:00</div></div>
     <div class="slots" id="slots"></div>
   </div>
   <div class="recado" id="recado" role="status" aria-live="polite"></div>
@@ -82,7 +83,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   <div class="base"><button class="recomeca" id="btn-recomeca">Recomeçar</button><button class="estouro" id="btn-estouro">Soltar confete</button></div>
 </div>
 
-<section class="tela" id="tela-inicio"><div class="miolo">
+<section class="tela" id="tela-inicio"><div class="topo-tela"><a class="voltar" href="../" aria-label="Voltar para a página inicial do convite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>Início</span></a></div><div class="miolo">
   <h1>Encontre nossa família</h1>
   <p class="guia">Você já salvou a data? Agora sua missão é reunir todo mundo para os preparativos continuarem!</p>
   <p class="guia sub">Clique nos espaços vazios para navegar e solte confetes clicando no personagem ou no botão para desbloquear novos espaços. Atenção: corra para não se sujar!</p>
@@ -104,7 +105,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
     <a class="botao" href="../save-the-date-patricia-e-alexandre.ics">Calendário Apple</a>
     <button class="botao sec" id="de-novo">Jogar de novo</button>
   </div>
-  <a class="link" href="../">Voltar ao convite</a>
+  <a class="link" href="../">Voltar para a página inicial</a>
 </section>
 
 <script>
@@ -384,7 +385,6 @@ function mostraFim(){
 document.querySelectorAll('.carta').forEach(function(b){b.addEventListener('click',function(){
   if(prontos<4)return;novoJogo(b.dataset.p);document.getElementById('tela-inicio').hidden=true;ajusta();
 });});
-document.getElementById('btn-voltar').addEventListener('click',function(){G=null;document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;});
 document.getElementById('btn-recomeca').addEventListener('click',function(){if(heroi){novoJogo(heroi);ajusta();}});
 document.getElementById('de-novo').addEventListener('click',function(){document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;G=null;});
 
