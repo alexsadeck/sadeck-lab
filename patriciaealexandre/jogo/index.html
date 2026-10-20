@@ -76,6 +76,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 .botao.sec{background:transparent;color:var(--linho);box-shadow:inset 0 0 0 1px var(--salvia)}
 .link{margin-top:1rem;color:var(--salvia);font-size:.95rem;text-decoration:underline;text-underline-offset:.25em}
 
+#tela-fim{justify-content:center}
 /* Computador: tela inicial e final proporcionais ao monitor */
 @media (min-width:900px){
   .tela h1{font-size:clamp(3rem,4.2vw,5.2rem)}
@@ -373,7 +374,7 @@ function arbusto(c,r){
   ctx.fillStyle='rgba(30,36,20,.35)';ctx.fillRect(x+2,y+14,12,2);
   ctx.drawImage(ARB[(c*7+r*3)%2],x,y);
 }
-function muro(c,r){ctx.fillStyle='#545d42';ctx.fillRect(c*T,r*T,T,T);}
+function muro(c,r){ctx.fillStyle='#5e6848';ctx.fillRect(c*T,r*T,T,T);}
 function bomba(b){
   var pis=(b.t<.6)?(Math.floor(b.t*12)%2):0,s=1+Math.sin((FUSE-b.t)*10)*.06;
   ctx.save();ctx.translate(b.c*T+8,b.r*T+9);ctx.scale(s,s);
