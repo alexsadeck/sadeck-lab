@@ -22,6 +22,10 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 .app{height:100%;display:flex;flex-direction:column;
   padding:calc(env(safe-area-inset-top,0px) + 10px) max(12px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(12px, env(safe-area-inset-left,0px))}
 .hud{display:flex;align-items:center;justify-content:space-between;gap:12px;height:48px;flex:none;max-width:30rem;width:100%;margin:0 auto}
+.hud-esq{display:flex;align-items:center;gap:12px}
+.voltar{appearance:none;border:0;background:transparent;color:var(--linho);display:flex;align-items:center;gap:2px;height:36px;padding:0 10px 0 4px;font-family:var(--serif);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:inset 0 0 0 1px rgba(196,195,165,.6);cursor:pointer}
+.voltar svg{width:18px;height:18px}
+.voltar:focus-visible{outline:2px solid var(--linho);outline-offset:2px}
 .tempo{font-size:1.4rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;min-width:4ch}
 .slots{display:flex;gap:6px}
 .slot{width:40px;height:40px;background:rgba(232,229,214,.08);border:1px solid rgba(196,195,165,.45);display:grid;place-items:center;overflow:hidden}
@@ -54,6 +58,8 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 .miolo{margin:auto 0;display:flex;flex-direction:column;align-items:center}
 .escolha-titulo{margin:1.6rem 0 0;font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--salvia)}
 #tela-inicio .guia{margin-top:.8rem;font-size:1.02rem}
+.guia.sub{color:var(--salvia)}
+#tela-inicio .guia.sub{font-size:.98rem}
 #tela-inicio .escolha{margin-top:.9rem}
 .data-final{margin:.4rem 0 0;font-size:clamp(2.6rem,13vw,3.6rem);letter-spacing:.04em}
 .trupe{display:flex;align-items:flex-end;gap:8px;margin-top:1rem}
@@ -68,7 +74,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 <body>
 <div class="app">
   <div class="hud">
-    <div class="tempo" id="tempo" aria-label="Tempo">0:00</div>
+    <div class="hud-esq"><button class="voltar" id="btn-voltar" aria-label="Voltar para a página inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>Início</span></button><div class="tempo" id="tempo" aria-label="Tempo">0:00</div></div>
     <div class="slots" id="slots"></div>
   </div>
   <div class="recado" id="recado" role="status" aria-live="polite"></div>
@@ -78,9 +84,9 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 
 <section class="tela" id="tela-inicio"><div class="miolo">
   <h1>Encontre nossa família</h1>
-  <p class="guia">Você já está confirmado?! Agora, sua missão é reunir todo mundo pra festa começar!</p>
-  <p class="guia">Clique nas casas vazias para navegar e estoure confetes clicando no personagem ou no botão pra desbloquear novos espaços. Atenção: corra pra não se sujar!</p>
-  <p class="guia">Ache nossa família no menor tempo possível e revele algo que você não pode esquecer!</p>
+  <p class="guia">Você já salvou a data? Agora sua missão é reunir todo mundo para os preparativos continuarem!</p>
+  <p class="guia sub">Clique nos espaços vazios para navegar e solte confetes clicando no personagem ou no botão para desbloquear novos espaços. Atenção: corra para não se sujar!</p>
+  <p class="guia sub">Ache nossa família no menor tempo possível e revele algo que você não pode esquecer!</p>
   <p class="escolha-titulo">Escolha um personagem</p>
   <div class="escolha">
     <button class="carta" data-p="alex"><img src="alex.png" width="197" height="360" alt=""><span>Alex</span></button>
@@ -89,10 +95,10 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 </div></section>
 
 <section class="tela" id="tela-fim" hidden>
-  <p class="eyebrow">Todo mundo junto</p>
+  <h1>Família reunida!</h1>
   <p class="data-final">24.07.2027</p>
   <div class="trupe" id="trupe"></div>
-  <p class="guia" id="resultado"></p>
+  <p class="guia sub" id="resultado"></p>
   <div class="acoes">
     <a class="botao" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Casamento%20Patr%C3%ADcia%20%26%20Alexandre&amp;dates=20270724/20270725&amp;details=Salve%20nossa%20data%21%20O%20convite%20oficial%20chega%20em%20breve." target="_blank" rel="noopener">Google Agenda</a>
     <a class="botao" href="../save-the-date-patricia-e-alexandre.ics">Calendário Apple</a>
@@ -115,7 +121,13 @@ function quadros(k,im){var w=im.width,h=im.height,y0=Math.round(h*PERNA[k]),m=Ma
   function base(){var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(im,0,0);return c;}
   function passo(x0,x1){var c=base(),x=c.getContext('2d');x.clearRect(x0,y0,x1-x0,h-y0);x.drawImage(im,x0,y0,x1-x0,h-y0,x0,y0-2,x1-x0,h-y0);return c;}
   function vira(c){var d=document.createElement('canvas');d.width=w;d.height=h;var x=d.getContext('2d');x.imageSmoothingEnabled=false;x.translate(w,0);x.scale(-1,1);x.drawImage(c,0,0);return d;}
-  var f=[base(),passo(0,m),passo(m,w)];out[FACE[k]]=f;out[-FACE[k]]=f.map(vira);return out;}
+  function suja(c){var d=document.createElement('canvas');d.width=w;d.height=h;var x=d.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(c,0,0);
+    x.globalCompositeOperation='source-atop';x.fillStyle='rgba(84,112,48,.38)';x.fillRect(0,0,w,h);
+    var sem=k.length*7;function rr(){sem=(sem*9301+49297)%233280;return sem/233280;}
+    for(var i=0;i<Math.round(w*h/28);i++){x.fillStyle=['#4f6b2c','#6f8f3c','#3d5522','#86a34b'][i%4];var px=Math.floor(rr()*w),py=Math.floor(rr()*h),z=1+Math.floor(rr()*3);x.fillRect(px,py,z,z>1?z-1:1);}
+    return d;}
+  var f=[base(),passo(0,m),passo(m,w)];out[FACE[k]]=f;out[-FACE[k]]=f.map(vira);
+  out.sujo={};out.sujo[1]=out[1].map(suja);out.sujo[-1]=out[-1].map(suja);return out;}
 function pinta(cv,id,esc){var im=SP[id];cv.width=im.width*esc;cv.height=im.height*esc;var x=cv.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(im,0,0,cv.width,cv.height);}
 
 
@@ -200,7 +212,7 @@ function quebra(c,r){
   var id=G.esconde[r+','+c];
   if(id){delete G.esconde[r+','+c];G.achados.push({id:id,c:c,r:r,x:c*T,y:r*T,junto:false,pulo:0});recado(NOME[id]+' apareceu!');}
 }
-function machuca(){if(G.p.inv>0||G.p.ai>0||G.fim)return;G.p.ai=0.9;G.p.mov=null;G.caminho=[];}
+function machuca(){if(G.p.inv>0||G.p.ai>0||G.fim)return;G.p.ai=1.1;G.p.sujo=2.6;G.p.mov=null;G.caminho=[];}
 function chega(){
   var p=G.p;
   G.achados.forEach(function(a){
@@ -261,7 +273,7 @@ function update(dt){
   if(!G) return;
   var p=G.p;
   if(G.t0!==null&&!G.fim){G.tempo=(performance.now()-G.t0)/1000;atualizaTempo(G.tempo);}
-  if(p.inv>0)p.inv-=dt;
+  if(p.inv>0)p.inv-=dt;if(p.sujo>0&&p.ai<=0)p.sujo-=dt;
   if(G.alvo){G.alvo.t-=dt;if(G.alvo.t<=0)G.alvo=null;}
   if(p.ai>0){p.ai-=dt;if(p.ai<=0){p.c=START.c;p.r=START.r;p.x=p.c*T;p.y=p.r*T;p.inv=1.4;G.rastro=[];G.trupe.forEach(function(a){a.x=p.x;a.y=p.y;});}}
   if(p.mov){
@@ -324,7 +336,7 @@ function bomba(b){
 }
 function boneco(o){
   var im=SP[o.id];if(!im||!FR[o.id])return;var w=im.width/Z,h=im.height/Z;
-  var q=o.anda?[1,0,2,0][Math.floor(o.anda*9)%4]:0, img=FR[o.id][o.face||FACE[o.id]][q];
+  var q=o.anda?[1,0,2,0][Math.floor(o.anda*9)%4]:0, img=(o.sujo?FR[o.id].sujo:FR[o.id])[o.face||FACE[o.id]][q];
   ctx.save();ctx.globalAlpha=o.alpha==null?1:o.alpha;
   ctx.fillStyle='rgba(20,24,14,.28)';ctx.fillRect(Math.round(o.x)+3,Math.round(o.y)+14,10,2);
   ctx.drawImage(img,o.x+8-w/2,o.y+15.5-h-(o.bob?1:0),w,h);ctx.restore();
@@ -347,7 +359,7 @@ function draw(){
   G.achados.forEach(function(a){if(!a.junto)L.push({id:a.id,x:a.x,y:a.y,bob:Math.floor(a.pulo*3)%2,balao:'!',face:Math.floor(a.pulo*.8)%2?1:-1});});
   G.trupe.forEach(function(a){L.push({id:a.id,x:a.x,y:a.y,anda:a.anda,face:a.face});});
   var pis=G.p.inv>0&&Math.floor(G.p.inv*10)%2===0;
-  L.push({id:heroi,x:G.p.x,y:G.p.y,anda:G.p.mov?G.p.anda:0,face:G.p.face,alpha:pis?.4:1,balao:G.p.ai>0?'ai!':null});
+  L.push({id:heroi,x:G.p.x,y:G.p.y,anda:G.p.mov?G.p.anda:0,face:G.p.face,alpha:pis?.4:1,balao:G.p.ai>0?'ai!':null,sujo:G.p.ai>0||G.p.sujo>0});
   L.sort(function(a,b){return a.y-b.y;});
   L.forEach(boneco);
   L.forEach(function(o){if(o.balao)balao(o.balao,o.x,o.y,SP[o.id].height/Z);});
@@ -364,7 +376,7 @@ addEventListener('resize',ajusta);
 
 function mostraFim(){
   var s=Math.round(G.tempo),m=Math.floor(s/60);
-  document.getElementById('resultado').textContent='Você encontrou todo mundo em '+(m?m+'min ':'')+(s%60)+'s.';
+  document.getElementById('resultado').textContent='Você encontrou todo mundo em '+(m?m+'min ':'')+(s%60)+'s e agora os preparativos para o grande dia podem continuar!';
   var tr=document.getElementById('trupe');tr.innerHTML='';
   [heroi].concat(procurados).forEach(function(id){var k=document.createElement('canvas');pinta(k,id,2);k.style.width=(SP[id].width*2)+'px';k.style.height=(SP[id].height*2)+'px';tr.appendChild(k);});
   document.getElementById('tela-fim').hidden=false;
@@ -372,6 +384,7 @@ function mostraFim(){
 document.querySelectorAll('.carta').forEach(function(b){b.addEventListener('click',function(){
   if(prontos<4)return;novoJogo(b.dataset.p);document.getElementById('tela-inicio').hidden=true;ajusta();
 });});
+document.getElementById('btn-voltar').addEventListener('click',function(){G=null;document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;});
 document.getElementById('btn-recomeca').addEventListener('click',function(){if(heroi){novoJogo(heroi);ajusta();}});
 document.getElementById('de-novo').addEventListener('click',function(){document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;G=null;});
 
