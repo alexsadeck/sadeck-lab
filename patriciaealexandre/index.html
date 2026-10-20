@@ -249,10 +249,12 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   function alinha(){
     if(!img||!nicho) return;
     var c=capa.getBoundingClientRect(), n=nicho.getBoundingClientRect(), vw=c.width, vh=c.height;
-    var tx=n.left-c.left+n.width*150/300, ty=n.top-c.top+n.height*(window.innerWidth>=900&&window.innerWidth>=window.innerHeight?178:205)/392;
+    var tx=n.left-c.left+n.width*150/300, ty=n.top-c.top+n.height*(window.innerWidth>=900&&window.innerWidth>=window.innerHeight?218:205)/392;
     var larga=/larga/.test(img.currentSrc||''), P=PONTO[larga?'larga':'retrato'], FX=P[0], FY=P[1];
     var IW=img.naturalWidth||2000, IH=img.naturalHeight||2667;
-    var k=Math.max(vw/IW,vh/IH)*(larga?1.32:1.12), W=IW*k, H=IH*k;
+    var k=Math.max(vw/IW,vh/IH)*(larga?1.32:1.12);
+    if(larga&&ty>FY*IH*k)k=ty/(FY*IH);
+    var W=IW*k, H=IH*k;
     var L=Math.min(0,Math.max(vw-W,tx-FX*W)), T=Math.min(0,Math.max(vh-H,ty-FY*H));
     img.style.cssText+=';inset:auto;left:'+L.toFixed(1)+'px;top:'+T.toFixed(1)+'px;width:'+W.toFixed(1)+'px;height:'+H.toFixed(1)+'px;object-fit:fill;transform-origin:'+(tx-L).toFixed(0)+'px '+(ty-T).toFixed(0)+'px';
   }
