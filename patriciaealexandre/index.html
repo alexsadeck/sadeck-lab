@@ -318,8 +318,10 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 (function(){
   if(!window.matchMedia||!matchMedia('(pointer:fine)').matches||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var alvo=null, anim=false;
+  window.__paraRolagem=function(){alvo=null;anim=false;};
   function max(){return document.documentElement.scrollHeight-innerHeight;}
   function passo(){
+    if(alvo==null){anim=false;return;}
     var y=window.scrollY, d=alvo-y;
     if(Math.abs(d)<0.6){window.scrollTo(0,alvo);anim=false;alvo=null;return;}
     window.scrollTo(0,y+d*0.14);requestAnimationFrame(passo);
@@ -333,8 +335,8 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
     alvo=Math.max(0,Math.min(max(),(alvo==null?window.scrollY:alvo)+dy));
     if(!anim){anim=true;requestAnimationFrame(passo);}
   },{passive:false});
-  addEventListener('keydown',function(){alvo=null;anim=false;});
-  addEventListener('pointerdown',function(){alvo=null;anim=false;});
+  addEventListener('keydown',function(){alvo=null;});
+  addEventListener('pointerdown',function(){alvo=null;});
 })();
 </script>
 <script>
@@ -343,10 +345,13 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   var b=document.querySelector('.desce'), capa=document.querySelector('.capa'); if(!b||!capa) return;
   b.addEventListener('click',function(e){
     e.preventDefault();
+    if(window.__paraRolagem)window.__paraRolagem();
     var alvo=capa.offsetHeight, calmo=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(calmo){window.scrollTo(0,alvo);return;}
-    var ini=window.scrollY, dist=alvo-ini, t0=null, dur=900;
-    function passo(t){if(t0===null)t0=t;var k=Math.min(1,(t-t0)/dur),e2=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;window.scrollTo(0,ini+dist*e2);if(k<1)requestAnimationFrame(passo);}
+    var ini=window.scrollY, dist=alvo-ini, t0=null, dur=900, parou=false;
+    function para(){parou=true;}
+    addEventListener('wheel',para,{once:true,passive:true});addEventListener('touchstart',para,{once:true,passive:true});
+    function passo(t){if(parou)return;if(t0===null)t0=t;var k=Math.min(1,(t-t0)/dur),e2=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;window.scrollTo(0,ini+dist*e2);if(k<1)requestAnimationFrame(passo);}
     requestAnimationFrame(passo);
   });
 })();
