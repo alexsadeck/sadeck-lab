@@ -41,6 +41,7 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 }
 .capa-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;transform-origin:50% 34%;will-change:transform}
 .lado{display:none}
+.capa-fundo{display:none}
 .capa::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,44,30,.10),rgba(40,44,30,0) 30%,rgba(40,44,30,.18));pointer-events:none}
 
 .convite{
@@ -154,11 +155,41 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   .lado-dir{left:calc(50% + min(15rem, calc((100svh - 10rem) / 3.24)) + 3vw)}
   .desce{display:none!important}
 }
+
+/* ---------- Computador: selo maior, foto estendida nas laterais, calendário e banner proporcionais à tela ---------- */
+@media (min-width:900px) and (min-aspect-ratio:1/1){
+  .capa-fundo{display:block;position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);object-fit:cover;object-position:50% 40%;filter:blur(26px) brightness(.82) saturate(.9)}
+  .capa-foto{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
+  .convite{width:min(36rem, calc((100svh - 6rem) / 1.62))}
+  .convite-texto{padding-bottom:3rem}
+  .convite-texto .eyebrow{font-size:1.05rem}
+  .data{font-size:1.75rem}
+  .lado-esq{right:calc(50% + min(18rem, calc((100svh - 6rem) / 3.24)) + 3vw)}
+  .lado-dir{left:calc(50% + min(18rem, calc((100svh - 6rem) / 3.24)) + 3vw)}
+
+  .cal{padding-top:clamp(4rem,10vh,8rem);padding-bottom:clamp(2rem,4vh,3.5rem)}
+  .cal h2{font-size:clamp(2.4rem,3.6vw,4.4rem);max-width:20ch}
+  .quadro{width:clamp(30rem,44vw,52rem);margin-top:clamp(2rem,4vh,3.2rem);padding:clamp(1.8rem,3vh,2.6rem) clamp(2rem,3vw,3rem) clamp(2rem,3.2vh,2.8rem)}
+  .quadro::before{inset:10px}
+  .quadro::after{width:5rem;height:2.5rem}
+  .linhas li{font-size:clamp(1.45rem,2vw,2.2rem);padding:clamp(.9rem,1.6vh,1.3rem) 0}
+  .btns{grid-template-columns:1fr 1fr;gap:clamp(.8rem,1vw,1.2rem);margin-top:clamp(1.2rem,2vh,1.8rem)}
+  .btn{min-height:clamp(3.6rem,6vh,4.6rem);font-size:clamp(1rem,1.2vw,1.35rem)}
+  .alt{font-size:clamp(1rem,1.1vw,1.2rem);margin-top:clamp(1rem,1.8vh,1.5rem)}
+
+  .banner{width:clamp(30rem,44vw,52rem);padding:clamp(1.6rem,3vh,2.4rem) clamp(2rem,3vw,3rem);gap:clamp(1.6rem,2.6vw,3rem)}
+  .banner-trupe{width:clamp(15rem,20vw,25rem)}
+  .banner-frase{font-size:clamp(1.6rem,2.2vw,2.6rem);max-width:16ch}
+  .banner-botao{font-size:clamp(1.15rem,1.45vw,1.6rem);padding:.8rem 1.4rem}
+  .fim{padding-bottom:clamp(3rem,6vh,5rem)}
+  .rodape-mono{width:clamp(4.2rem,5vw,6rem)}
+}
 </style>
 </head>
 <body>
 
 <header class="capa">
+  <img class="capa-fundo" src="foto-casal-2.jpg" alt="" aria-hidden="true">
   <img class="capa-foto" src="foto-casal-2.jpg" width="2000" height="2667" alt="Patrícia e Alexandre de rosto colado, ao ar livre, entre palmeiras">
 
   <p class="lado lado-esq" aria-hidden="true">Patrícia</p>
@@ -219,8 +250,10 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
     if(!img||!nicho) return;
     var c=capa.getBoundingClientRect(), n=nicho.getBoundingClientRect(), vw=c.width, vh=c.height;
     var tx=n.left-c.left+n.width*150/300, ty=n.top-c.top+n.height*205/392;
-    var k=Math.max(vw/IW,vh/IH)*1.12, W=IW*k, H=IH*k;
-    var L=Math.min(0,Math.max(vw-W,tx-FX*W)), T=Math.min(0,Math.max(vh-H,ty-FY*H));
+    var desk=window.matchMedia&&matchMedia('(min-width:900px) and (min-aspect-ratio:1/1)').matches, k;
+    if(desk){var jan=n.width*212/300;k=Math.max(jan*1.45/(.45*IW),vh/IH);}else k=Math.max(vw/IW,vh/IH)*1.12;
+    var W=IW*k, H=IH*k;
+    var L=desk&&W<vw?tx-FX*W:Math.min(0,Math.max(vw-W,tx-FX*W)), T=Math.min(0,Math.max(vh-H,ty-FY*H));
     img.style.cssText+=';inset:auto;left:'+L.toFixed(1)+'px;top:'+T.toFixed(1)+'px;width:'+W.toFixed(1)+'px;height:'+H.toFixed(1)+'px;object-fit:fill;transform-origin:'+(tx-L).toFixed(0)+'px '+(ty-T).toFixed(0)+'px';
   }
   alinha(); addEventListener('resize',alinha); addEventListener('load',alinha); setTimeout(alinha,1400);
