@@ -41,7 +41,6 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 }
 .capa-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;transform-origin:50% 34%;will-change:transform}
 .lado{display:none}
-.capa-fundo{display:none}
 .capa::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,44,30,.10),rgba(40,44,30,0) 30%,rgba(40,44,30,.18));pointer-events:none}
 
 .convite{
@@ -142,7 +141,7 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 .convite{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) .15s backwards}
 @media (prefers-reduced-motion:reduce){.convite,.desce,.lado{animation:none!important}}
 @media (min-width:900px) and (min-aspect-ratio:1/1){
-  .capa{padding-top:2.5rem;padding-bottom:2.5rem}
+  .capa{padding-top:6rem;padding-bottom:1.5rem}
   .convite{width:min(30rem, calc((100svh - 10rem) / 1.62))}
   .convite-texto{padding-bottom:2.6rem}
   .nomes{display:none}
@@ -158,14 +157,13 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 
 /* ---------- Computador: selo maior, foto estendida nas laterais, calendário e banner proporcionais à tela ---------- */
 @media (min-width:900px) and (min-aspect-ratio:1/1){
-  .capa-fundo{display:block;position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);object-fit:cover;object-position:50% 40%;filter:blur(26px) brightness(.82) saturate(.9)}
-  .capa-foto{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
-  .convite{width:min(36rem, calc((100svh - 6rem) / 1.62))}
+  .convite{width:min(40vw, 46rem, calc((100svh - 17rem) / 1.307))}
   .convite-texto{padding-bottom:3rem}
   .convite-texto .eyebrow{font-size:1.05rem}
   .data{font-size:1.75rem}
-  .lado-esq{right:calc(50% + min(18rem, calc((100svh - 6rem) / 3.24)) + 3vw)}
-  .lado-dir{left:calc(50% + min(18rem, calc((100svh - 6rem) / 3.24)) + 3vw)}
+  .lado{font-size:clamp(3rem,5vw,6rem)!important}
+  .lado-esq{right:calc(50% + min(20vw, 23rem, calc((100svh - 17rem) / 2.614)) + 2.5vw)}
+  .lado-dir{left:calc(50% + min(20vw, 23rem, calc((100svh - 17rem) / 2.614)) + 2.5vw)}
 
   .cal{padding-top:clamp(4rem,10vh,8rem);padding-bottom:clamp(2rem,4vh,3.5rem)}
   .cal h2{font-size:clamp(2.4rem,3.6vw,4.4rem);max-width:20ch}
@@ -189,8 +187,10 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 <body>
 
 <header class="capa">
-  <img class="capa-fundo" src="foto-casal-2.jpg" alt="" aria-hidden="true">
-  <img class="capa-foto" src="foto-casal-2.jpg" width="2000" height="2667" alt="Patrícia e Alexandre de rosto colado, ao ar livre, entre palmeiras">
+  <picture>
+    <source media="(min-width:900px) and (min-aspect-ratio:1/1)" srcset="foto-casal-larga.jpg">
+    <img class="capa-foto" src="foto-casal-2.jpg" width="2000" height="2667" alt="Patrícia e Alexandre de rosto colado, ao ar livre, entre palmeiras">
+  </picture>
 
   <p class="lado lado-esq" aria-hidden="true">Patrícia</p>
   <p class="lado lado-dir" aria-hidden="true">Alexandre</p>
@@ -245,18 +245,18 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 (function(){
   var img=document.querySelector('.capa-foto'), capa=document.querySelector('.capa'), nicho=document.querySelector('.nicho');
   /* Posiciona a foto para que o rosto do casal fique dentro da janela, em qualquer tela */
-  var FX=.485, FY=.315, IW=2000, IH=2667;
+  var PONTO={retrato:[.485,.315],larga:[.487,.307]};
   function alinha(){
     if(!img||!nicho) return;
     var c=capa.getBoundingClientRect(), n=nicho.getBoundingClientRect(), vw=c.width, vh=c.height;
-    var tx=n.left-c.left+n.width*150/300, ty=n.top-c.top+n.height*205/392;
-    var desk=window.matchMedia&&matchMedia('(min-width:900px) and (min-aspect-ratio:1/1)').matches, k;
-    if(desk){var jan=n.width*212/300;k=Math.max(jan*1.45/(.45*IW),vh/IH);}else k=Math.max(vw/IW,vh/IH)*1.12;
-    var W=IW*k, H=IH*k;
-    var L=desk&&W<vw?tx-FX*W:Math.min(0,Math.max(vw-W,tx-FX*W)), T=Math.min(0,Math.max(vh-H,ty-FY*H));
+    var tx=n.left-c.left+n.width*150/300, ty=n.top-c.top+n.height*(window.innerWidth>=900&&window.innerWidth>=window.innerHeight?178:205)/392;
+    var larga=/larga/.test(img.currentSrc||''), P=PONTO[larga?'larga':'retrato'], FX=P[0], FY=P[1];
+    var IW=img.naturalWidth||2000, IH=img.naturalHeight||2667;
+    var k=Math.max(vw/IW,vh/IH)*(larga?1.32:1.12), W=IW*k, H=IH*k;
+    var L=Math.min(0,Math.max(vw-W,tx-FX*W)), T=Math.min(0,Math.max(vh-H,ty-FY*H));
     img.style.cssText+=';inset:auto;left:'+L.toFixed(1)+'px;top:'+T.toFixed(1)+'px;width:'+W.toFixed(1)+'px;height:'+H.toFixed(1)+'px;object-fit:fill;transform-origin:'+(tx-L).toFixed(0)+'px '+(ty-T).toFixed(0)+'px';
   }
-  alinha(); addEventListener('resize',alinha); addEventListener('load',alinha); setTimeout(alinha,1400);
+  alinha(); img.addEventListener('load',alinha); addEventListener('resize',alinha); addEventListener('load',alinha); setTimeout(alinha,1400);
   if(!window.matchMedia||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var ticking=false;
   function update(){
