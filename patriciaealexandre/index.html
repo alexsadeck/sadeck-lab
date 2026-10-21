@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Patrícia &amp; Alexandre · 24.07.2027</title>
+<script>
+/* Rastreio de uso (Microsoft Clarity). Quem abrir o site com ?eu=1 uma vez deixa de ser contado neste aparelho; ?eu=0 volta a contar. */
+(function(){
+  var fora=false;
+  try{var q=location.search;if(/[?&]eu=1/.test(q))localStorage.setItem('pa-sem-rastreio','1');if(/[?&]eu=0/.test(q))localStorage.removeItem('pa-sem-rastreio');fora=localStorage.getItem('pa-sem-rastreio')==='1';}catch(e){}
+  window.rastreia=function(nome,chave,valor){try{if(window.clarity){clarity('event',nome);if(chave)clarity('set',chave,String(valor));}}catch(e){}};
+  if(fora)return;
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z1api44kf8");
+})();
+</script>
+
 <meta name="theme-color" content="#5e6848">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Patrícia &amp; Alexandre · 24.07.2027">
@@ -354,6 +365,25 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
     function passo(t){if(parou)return;if(t0===null)t0=t;var k=Math.min(1,(t-t0)/dur),e2=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;window.scrollTo(0,ini+dist*e2);if(k<1)requestAnimationFrame(passo);}
     requestAnimationFrame(passo);
   });
+})();
+</script>
+<script>
+/* Eventos do convite */
+(function(){
+  function liga(sel,nome){var e=document.querySelectorAll(sel);e.forEach(function(x){x.addEventListener('click',function(){rastreia(nome);});});}
+  liga('.desce','clicou_seta');
+  liga('.btns .btn[href*="google"]','clicou_google');
+  liga('.btns .btn[href$=".ics"]','clicou_apple');
+  liga('.quadro .alt','clicou_outlook');
+  liga('.banner','clicou_banner_jogo');
+  var capa=document.querySelector('.capa'), viuCal=false, viuBanner=false, t0=Date.now();
+  function olha(){
+    var y=window.scrollY, h=capa.offsetHeight;
+    if(!viuCal&&y>=h*0.8){viuCal=true;rastreia('chegou_no_calendario','segundos_ate_calendario',Math.round((Date.now()-t0)/1000));}
+    var b=document.querySelector('.banner');if(!viuBanner&&b&&b.getBoundingClientRect().top<innerHeight*0.85){viuBanner=true;rastreia('viu_banner_jogo');}
+  }
+  addEventListener('scroll',olha,{passive:true});
+  document.querySelector('.convite').addEventListener('click',function(){rastreia('tocou_no_selo');});
 })();
 </script>
 </body>

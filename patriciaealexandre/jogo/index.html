@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Encontre Todo Mundo · Patrícia &amp; Alexandre</title>
+<script>
+/* Rastreio de uso (Microsoft Clarity). Quem abrir o site com ?eu=1 uma vez deixa de ser contado neste aparelho; ?eu=0 volta a contar. */
+(function(){
+  var fora=false;
+  try{var q=location.search;if(/[?&]eu=1/.test(q))localStorage.setItem('pa-sem-rastreio','1');if(/[?&]eu=0/.test(q))localStorage.removeItem('pa-sem-rastreio');fora=localStorage.getItem('pa-sem-rastreio')==='1';}catch(e){}
+  window.rastreia=function(nome,chave,valor){try{if(window.clarity){clarity('event',nome);if(chave)clarity('set',chave,String(valor));}}catch(e){}};
+  if(fora)return;
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z1api44kf8");
+})();
+</script>
+
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#4f583c">
 <link rel="icon" href="../icon.png">
@@ -217,7 +228,7 @@ function solta(){
   if(!G||G.fim||G.p.ai>0) return;
   var c=G.p.c,r=G.p.r;
   if(G.bombas.length>=2||bombaEm(c,r)) return;
-  começa(); G.bombas.push({c:c,r:r,t:FUSE});
+  começa(); G.bombas.push({c:c,r:r,t:FUSE});G.confetes=(G.confetes||0)+1;if(G.confetes===1)rastreia('primeiro_confete');
 }
 function explode(b){
   G.bombas.splice(G.bombas.indexOf(b),1); chama(b.c,b.r);
@@ -239,17 +250,17 @@ function chama(c,r){
     G.particulas.push({x:c*T+8,y:r*T+8,vx:Math.cos(a)*v,vy:Math.sin(a)*v-10,t:.5+Math.random()*.4,cor:CONF[Math.floor(Math.random()*CONF.length)]});}
 }
 function quebra(c,r){
-  G.grid[r][c]='.';if(ehData(c,r)&&!G.dicaPetala&&!G.fim){G.dicaPetala=1;setTimeout(function(){if(G&&!G.fim)recado('Pétalas no chão: pode pisar!');},700);}G.abrindo.push({c:c,r:r,t:.4});
+  G.grid[r][c]='.';if(ehData(c,r)&&!G.dicaPetala&&!G.fim){G.dicaPetala=1;rastreia('viu_petalas');setTimeout(function(){if(G&&!G.fim)recado('Pétalas no chão: pode pisar!');},700);}G.abrindo.push({c:c,r:r,t:.4});
   for(var j=0;j<10;j++){var an=Math.random()*Math.PI*2,vv=20+Math.random()*34;G.particulas.push({x:c*T+8,y:r*T+8,vx:Math.cos(an)*vv,vy:Math.sin(an)*vv-18,t:.5+Math.random()*.4,cor:['#74864b','#91a560','#b4c47f','#56653a'][j%4],f:2});}
   var id=G.esconde[r+','+c];
-  if(id){delete G.esconde[r+','+c];G.achados.push({id:id,c:c,r:r,x:c*T,y:r*T,junto:false,pulo:0,festa:1.2});festa(c,r,26);recado(NOME[id]+' apareceu! Vá até ele');}
+  if(id){rastreia('achou_'+id);delete G.esconde[r+','+c];G.achados.push({id:id,c:c,r:r,x:c*T,y:r*T,junto:false,pulo:0,festa:1.2});festa(c,r,26);recado(NOME[id]+' apareceu! Vá até ele');}
 }
-function machuca(){if(G.p.inv>0||G.p.ai>0||G.fim)return;G.p.ai=1.1;G.p.sujo=2.6;G.p.mov=null;G.caminho=[];}
+function machuca(){if(G.p.inv>0||G.p.ai>0||G.fim)return;G.sujou=(G.sujou||0)+1;rastreia('sujou');G.p.ai=1.1;G.p.sujo=2.6;G.p.mov=null;G.caminho=[];}
 function chega(){
   var p=G.p;
   G.achados.forEach(function(a){
     if(!a.junto&&Math.abs(a.c-p.c)+Math.abs(a.r-p.r)<=1){
-      a.junto=true;G.trupe.push(a);
+      a.junto=true;G.trupe.push(a);rastreia('reuniu_'+a.id);
       var s=document.getElementById('slot-'+a.id);if(s)s.classList.add('ok');
       festa(a.c,a.r,20);recado(NOME[a.id]+' entrou na festa!');
       if(G.trupe.length===procurados.length)vence();
@@ -261,7 +272,9 @@ var LUGAR={chico:[3,6],alex:[4,6],pati:[6,6],bono:[7,6]};
 function reune(){G.reuniao={t:0};document.querySelector('.app').classList.add('final');setTimeout(function(){document.getElementById('faixa').classList.add('on');festa(5,6,40);},1500);setTimeout(mostraFim,5200);}
 function verificaPerto(){if(G&&!G.p.mov&&!G.fim)chega();}
 function vence(){
-  G.fim=true;G.tempo=(performance.now()-G.t0)/1000;G.caminho=[];G.bombas=[];
+  G.fim=true;G.tempo=(performance.now()-G.t0)/1000;
+  var tt=G.tempo,fx=tt<45?'menos de 45s':tt<90?'45s a 1m30':tt<150?'1m30 a 2m30':'mais de 2m30';
+  rastreia('terminou','tempo_jogo',fx);rastreia('terminou_detalhes','sujou_vezes',G.sujou||0);rastreia('terminou_confetes','confetes_usados',G.confetes||0);G.caminho=[];G.bombas=[];
   var lista=[];
   for(var r=1;r<ROWS-1;r++)for(var c=1;c<COLS-1;c++)if(G.grid[r][c]==='B')lista.push({c:c,r:r,d:Math.hypot(c-G.p.c,r-G.p.r)});
   lista.sort(function(a,b){return a.d-b.d;});
@@ -289,13 +302,14 @@ function caminho(dc,dr){
 cv.addEventListener('pointerdown',function(e){
   e.preventDefault(); if(!G||G.fim||G.p.ai>0) return;
   var b=cv.getBoundingClientRect(), c=Math.floor((e.clientX-b.left)/b.width*COLS), r=Math.floor((e.clientY-b.top)/b.height*ROWS);
-  if(c===G.p.c&&r===G.p.r&&!G.p.mov){solta();return;}
+  if(c===G.p.c&&r===G.p.r&&!G.p.mov){rastreia('confete_tocando_personagem');solta();return;}
   var rota=caminho(c,r);
+  if(!rota){rastreia('toque_sem_caminho');}else if(G.grid[r]&&G.grid[r][c]==='B'){rastreia('toque_em_arbusto');}
   G.alvo={c:c,r:r,t:.6};
   if(rota&&rota.length){G.caminho=rota;começa();}
 });
 var be=document.getElementById('btn-estouro');
-be.addEventListener('pointerdown',function(e){e.preventDefault();be.classList.add('on');solta();});
+be.addEventListener('pointerdown',function(e){e.preventDefault();be.classList.add('on');rastreia('confete_pelo_botao');solta();});
 ['pointerup','pointercancel','pointerleave'].forEach(function(ev){be.addEventListener(ev,function(){be.classList.remove('on');});});
 var TECLA={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}, segura=[];
 addEventListener('keydown',function(e){
@@ -435,11 +449,16 @@ function mostraFim(){
   document.getElementById('tela-fim').hidden=false;
 }
 document.querySelectorAll('.carta').forEach(function(b){b.addEventListener('click',function(){
-  if(prontos<4)return;novoJogo(b.dataset.p);document.getElementById('tela-inicio').hidden=true;ajusta();
+  if(prontos<4)return;rastreia('escolheu_'+b.dataset.p,'personagem',b.dataset.p);novoJogo(b.dataset.p);document.getElementById('tela-inicio').hidden=true;ajusta();
 });});
-document.getElementById('btn-recomeca').addEventListener('click',function(){if(heroi){novoJogo(heroi);ajusta();}});
-document.getElementById('de-novo').addEventListener('click',function(){document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;G=null;});
+document.getElementById('btn-recomeca').addEventListener('click',function(){if(heroi){rastreia('recomecou','achados_ao_recomecar',G?G.trupe.length:0);novoJogo(heroi);ajusta();}});
+document.getElementById('de-novo').addEventListener('click',function(){rastreia('jogou_de_novo');document.getElementById('tela-fim').hidden=true;document.getElementById('tela-inicio').hidden=false;G=null;});
 
+document.querySelectorAll('.voltar').forEach(function(a){a.addEventListener('click',function(){rastreia(G&&!G.fim?'saiu_pelo_inicio_no_meio':'voltou_ao_convite');});});
+document.querySelectorAll('#tela-fim .acoes a').forEach(function(a,i){a.addEventListener('click',function(){rastreia(i===0?'final_google':'final_apple');});});
+var lk=document.querySelector('#tela-fim .link');if(lk)lk.addEventListener('click',function(){rastreia('final_voltou_ao_convite');});
+addEventListener('pagehide',function(){if(G&&!G.fim&&G.t0)rastreia('saiu_no_meio','achados_ao_sair',G.trupe.length);});
+rastreia('abriu_jogo');
 var ult=performance.now();
 function loop(a){var dt=Math.min(.05,(a-ult)/1000);ult=a;update(dt);draw();requestAnimationFrame(loop);}
 ajusta();requestAnimationFrame(loop);
