@@ -88,8 +88,8 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 .nomes span{display:block}
 .nomes .e{font-size:.62em;line-height:1.25;color:var(--oliva)}
 .data{margin:.7rem 0 0;font-size:1.05rem;letter-spacing:.12em;color:var(--oliva);font-variant-numeric:lining-nums}
-.salvar{width:100%;margin-top:1rem}
-.salvar-btn{appearance:none;border:0;width:100%;min-height:2.9rem;background:var(--oliva);color:var(--linho);font-family:var(--serif);font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.salvar{width:100%;min-width:0;max-width:100%;margin-top:1rem}
+.salvar-btn{appearance:none;-webkit-appearance:none;border:0;border-radius:0;margin:0;display:block;width:100%;max-width:100%;min-height:2.9rem;padding:.5rem .6rem;background:var(--oliva);color:var(--linho);font-family:var(--serif);font-size:clamp(.78rem,3.4vw,.92rem);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
 .salvar-btn:active,.salvar-btn:hover{background:var(--oliva-escuro)}
 .salvar-btn:focus-visible{outline:2px solid var(--oliva);outline-offset:3px}
 .convite{cursor:pointer}
@@ -99,7 +99,8 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   .convite-texto .eyebrow{margin-top:.6rem!important}
   .data{margin-top:.45rem}
   .salvar{margin-top:.7rem}
-  .salvar-btn,  .convite{min-width:13.5rem}
+  .salvar-btn{min-height:2.5rem}
+  .convite{min-width:13.5rem}
 }
 
 .desce{
@@ -190,7 +191,8 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
   .convite-texto .eyebrow{font-size:1.05rem}
   .data{font-size:1.75rem}
   .salvar{margin-top:1.3rem}
-  .salvar-btn,  .lado{font-size:clamp(3rem,5vw,6rem)!important}
+  .salvar-btn{min-height:3.4rem;font-size:1.05rem}
+  .lado{font-size:clamp(3rem,5vw,6rem)!important}
   .lado-esq{right:calc(50% + min(20vw, 23rem, calc((100svh - 24rem) / 2.614)) + 2.5vw)}
   .lado-dir{left:calc(50% + min(20vw, 23rem, calc((100svh - 24rem) / 2.614)) + 2.5vw)}
 
