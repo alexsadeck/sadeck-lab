@@ -15,6 +15,9 @@
 })();
 </script>
 
+
+
+
 <meta name="theme-color" content="#5e6848">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Patrícia &amp; Alexandre · 24.07.2027">
@@ -56,7 +59,7 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 
 .convite{
   position:relative;z-index:1;
-  width:min(76vw, 22rem, calc((100svh - 16rem) * .6));
+  width:min(76vw, 22rem, calc((100svh - 19rem) * .6));
   min-width:15rem;
   display:flex;flex-direction:column;align-items:center;
   filter:drop-shadow(0 10px 28px rgba(30,34,22,.28));
@@ -83,6 +86,23 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 .nomes span{display:block}
 .nomes .e{font-size:.62em;line-height:1.25;color:var(--oliva)}
 .data{margin:.7rem 0 0;font-size:1.05rem;letter-spacing:.12em;color:var(--oliva);font-variant-numeric:lining-nums}
+.salvar{width:100%;margin-top:1rem}
+.salvar-btn{appearance:none;border:0;width:100%;min-height:2.9rem;background:var(--oliva);color:var(--linho);font-family:var(--serif);font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.salvar-btn:active,.salvar-btn:hover{background:var(--oliva-escuro)}
+.salvar-opcoes{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.salvar-op{display:flex;align-items:center;justify-content:center;min-height:2.9rem;padding:.4rem;background:var(--oliva);color:var(--linho);text-decoration:none;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.15;text-align:center}
+.salvar-btn:focus-visible,.salvar-op:focus-visible{outline:2px solid var(--oliva);outline-offset:3px}
+.convite{cursor:pointer}
+.salvar-opcoes[hidden],.salvar-btn[hidden]{display:none}
+@media (max-height:700px) and (max-width:899px){
+  .nomes{font-size:1.8rem}
+  .convite-texto{padding:.2rem 1rem 1.1rem}
+  .convite-texto .eyebrow{margin-top:.6rem!important}
+  .data{margin-top:.45rem}
+  .salvar{margin-top:.7rem}
+  .salvar-btn,.salvar-op{min-height:2.5rem}
+  .convite{min-width:13.5rem}
+}
 
 .desce{
   position:absolute;z-index:1;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 1.1rem);transform:translateX(-50%);
@@ -167,13 +187,15 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
 
 /* ---------- Computador: selo maior, foto estendida nas laterais, calendário e banner proporcionais à tela ---------- */
 @media (min-width:900px) and (min-aspect-ratio:1/1){
-  .convite{width:min(40vw, 46rem, calc((100svh - 20rem) / 1.307))}
+  .convite{width:min(40vw, 46rem, calc((100svh - 24rem) / 1.307))}
   .convite-texto{padding-bottom:3rem}
   .convite-texto .eyebrow{font-size:1.05rem}
   .data{font-size:1.75rem}
+  .salvar{margin-top:1.3rem}
+  .salvar-btn,.salvar-op{min-height:3.4rem;font-size:1.05rem}
   .lado{font-size:clamp(3rem,5vw,6rem)!important}
-  .lado-esq{right:calc(50% + min(20vw, 23rem, calc((100svh - 20rem) / 2.614)) + 2.5vw)}
-  .lado-dir{left:calc(50% + min(20vw, 23rem, calc((100svh - 20rem) / 2.614)) + 2.5vw)}
+  .lado-esq{right:calc(50% + min(20vw, 23rem, calc((100svh - 24rem) / 2.614)) + 2.5vw)}
+  .lado-dir{left:calc(50% + min(20vw, 23rem, calc((100svh - 24rem) / 2.614)) + 2.5vw)}
 
   .desce{width:3.2rem;height:3.2rem;bottom:1.2rem}
   .desce svg{width:1.3rem;height:1.3rem}
@@ -219,6 +241,13 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
       <p class="eyebrow" style="margin-top:1.1rem">Salve nossa data</p>
       <h1 class="nomes"><span>Patrícia</span><span class="e">&amp;</span><span>Alexandre</span></h1>
       <p class="data"><time datetime="2027-07-24">24.07.2027</time></p>
+      <div class="salvar" id="salvar">
+        <button class="salvar-btn" id="salvar-btn" type="button" aria-expanded="false" aria-controls="salvar-opcoes">Salvar a data</button>
+        <div class="salvar-opcoes" id="salvar-opcoes" hidden>
+          <a class="salvar-op" id="capa-google" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Casamento%20Patr%C3%ADcia%20%26%20Alexandre&amp;dates=20270724/20270725&amp;details=Salve%20nossa%20data%21%20O%20convite%20oficial%20chega%20em%20breve." target="_blank" rel="noopener">Google Agenda</a>
+          <a class="salvar-op" id="capa-apple" href="save-the-date-patricia-e-alexandre.ics">Calendário Apple</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -383,7 +412,12 @@ body{margin:0;background:var(--oliva);color:var(--oliva);font-family:var(--serif
     var b=document.querySelector('.banner');if(!viuBanner&&b&&b.getBoundingClientRect().top<innerHeight*0.85){viuBanner=true;rastreia('viu_banner_jogo');}
   }
   addEventListener('scroll',olha,{passive:true});
-  document.querySelector('.convite').addEventListener('click',function(){rastreia('tocou_no_selo');});
+  var sb=document.getElementById('salvar-btn'), so=document.getElementById('salvar-opcoes');
+  function abreSalvar(origem){if(!so||!so.hidden)return;so.hidden=false;sb.hidden=true;sb.setAttribute('aria-expanded','true');rastreia(origem);}
+  if(sb){sb.addEventListener('click',function(e){e.stopPropagation();abreSalvar('capa_salvar_a_data');});
+  document.getElementById('capa-google').addEventListener('click',function(e){e.stopPropagation();rastreia('capa_google');});
+  document.getElementById('capa-apple').addEventListener('click',function(e){e.stopPropagation();rastreia('capa_apple');});}
+  document.querySelector('.convite').addEventListener('click',function(){rastreia('tocou_no_selo');abreSalvar('capa_salvar_pelo_selo');});
 })();
 </script>
 </body>

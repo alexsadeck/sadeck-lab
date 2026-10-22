@@ -85,6 +85,8 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
 .botao{display:flex;align-items:center;justify-content:center;min-height:3.2rem;padding:.6rem 1rem;background:var(--linho);color:var(--oliva);text-decoration:none;
   font-family:var(--serif);font-size:1rem;letter-spacing:.08em;text-transform:uppercase;border:0;cursor:pointer}
 .botao.sec{background:transparent;color:var(--linho);box-shadow:inset 0 0 0 1px var(--salvia)}
+.chamada{margin:1.4rem 0 0;font-size:1.2rem;font-style:italic;color:var(--linho);max-width:22rem}
+#tela-fim .acoes{margin-top:.9rem}
 .link{margin-top:1rem;color:var(--salvia);font-size:.95rem;text-decoration:underline;text-underline-offset:.25em}
 
 #tela-fim{justify-content:center}
@@ -107,6 +109,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   #tela-fim .guia{font-size:clamp(1.2rem,1.35vw,1.6rem);max-width:34rem}
   .trupe{gap:14px;margin-top:1.4rem;transform:scale(1.4);transform-origin:center top;margin-bottom:1.6rem}
   .acoes{width:min(100%,28rem)}
+  .chamada{font-size:clamp(1.3rem,1.6vw,1.8rem);max-width:30rem}
   .botao{min-height:3.8rem;font-size:1.15rem}
 }
 </style>
@@ -139,6 +142,7 @@ html,body{height:100%;margin:0;background:var(--oliva-escuro);color:var(--linho)
   <p class="data-final">24.07.2027</p>
   <div class="trupe" id="trupe"></div>
   <p class="guia sub" id="resultado"></p>
+  <p class="chamada">Agora não esquece: salve a data no seu calendário!</p>
   <div class="acoes">
     <a class="botao" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Casamento%20Patr%C3%ADcia%20%26%20Alexandre&amp;dates=20270724/20270725&amp;details=Salve%20nossa%20data%21%20O%20convite%20oficial%20chega%20em%20breve." target="_blank" rel="noopener">Google Agenda</a>
     <a class="botao" href="../save-the-date-patricia-e-alexandre.ics">Calendário Apple</a>
@@ -192,9 +196,9 @@ function novoJogo(id){
   var grid=[],r,c;
   for(r=0;r<ROWS;r++){grid.push([]);for(c=0;c<COLS;c++){
     var borda=(r===0||c===0||r===ROWS-1||c===COLS-1);
-    grid[r].push(borda?'W':(ehData(c,r)?'B':(Math.random()<0.82?'B':'.')));
+    grid[r].push(borda?'W':(ehData(c,r)?'B':(Math.random()<0.52?'B':'.')));
   }}
-  [[1,6],[2,6],[1,7],[1,5]].forEach(function(p){grid[p[1]][p[0]]='.';});
+  [[1,3],[1,4],[1,5],[1,6],[1,7],[1,8],[1,9],[2,6]].forEach(function(p){grid[p[1]][p[0]]='.';});
   var esconde={}, usados=[];
   procurados.forEach(function(pid){
     var cand=[];
@@ -207,7 +211,7 @@ function novoJogo(id){
   });
   G={grid:grid,esconde:esconde,abrindo:[],reuniao:null,bombas:[],chamas:[],achados:[],trupe:[],rastro:[],caminho:[],
      p:{c:START.c,r:START.r,x:START.c*T,y:START.r*T,mov:null,ai:0,inv:0,anda:0,face:1},
-     t0:null,tempo:0,fim:false,cascata:null,particulas:[],alvo:null};
+     t0:null,tempo:0,ultimoAchado:null,fim:false,cascata:null,particulas:[],alvo:null};
   montaSlots(); atualizaTempo(0);
 }
 
@@ -228,8 +232,9 @@ function solta(){
   if(!G||G.fim||G.p.ai>0) return;
   var c=G.p.c,r=G.p.r;
   if(G.bombas.length>=2||bombaEm(c,r)) return;
-  começa(); G.bombas.push({c:c,r:r,t:FUSE});G.confetes=(G.confetes||0)+1;if(G.confetes===1)rastreia('primeiro_confete');
+  começa(); G.bombas.push({c:c,r:r,t:FUSE});G.confetes=(G.confetes||0)+1;if(G.confetes===1){rastreia('primeiro_confete');recado('Saia da área clara antes do estouro!');}
 }
+function alcance(b){var L=[[b.c,b.r]];[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){for(var i=1;i<=RANGE;i++){var c=b.c+d[0]*i,r=b.r+d[1]*i,t=G.grid[r][c];if(t==='W')break;L.push([c,r]);if(t==='B')break;}});return L;}
 function explode(b){
   G.bombas.splice(G.bombas.indexOf(b),1); chama(b.c,b.r);
   [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){
@@ -253,7 +258,7 @@ function quebra(c,r){
   G.grid[r][c]='.';if(ehData(c,r)&&!G.dicaPetala&&!G.fim){G.dicaPetala=1;rastreia('viu_petalas');setTimeout(function(){if(G&&!G.fim)recado('Pétalas no chão: pode pisar!');},700);}G.abrindo.push({c:c,r:r,t:.4});
   for(var j=0;j<10;j++){var an=Math.random()*Math.PI*2,vv=20+Math.random()*34;G.particulas.push({x:c*T+8,y:r*T+8,vx:Math.cos(an)*vv,vy:Math.sin(an)*vv-18,t:.5+Math.random()*.4,cor:['#74864b','#91a560','#b4c47f','#56653a'][j%4],f:2});}
   var id=G.esconde[r+','+c];
-  if(id){rastreia('achou_'+id);delete G.esconde[r+','+c];G.achados.push({id:id,c:c,r:r,x:c*T,y:r*T,junto:false,pulo:0,festa:1.2});festa(c,r,26);recado(NOME[id]+' apareceu! Vá até ele');}
+  if(id){G.ultimoAchado=performance.now();rastreia('achou_'+id);delete G.esconde[r+','+c];G.achados.push({id:id,c:c,r:r,x:c*T,y:r*T,junto:false,pulo:0,festa:1.2});festa(c,r,26);recado(NOME[id]+' apareceu! Vá até ele');}
 }
 function machuca(){if(G.p.inv>0||G.p.ai>0||G.fim)return;G.sujou=(G.sujou||0)+1;rastreia('sujou');G.p.ai=1.1;G.p.sujo=2.6;G.p.mov=null;G.caminho=[];}
 function chega(){
@@ -411,6 +416,15 @@ function balao(txt,x,y,h){
   ctx.fillStyle='#e8e5d6';ctx.fillRect(bx,by,w,9);ctx.fillRect(Math.round(x+7),by+9,2,2);
   ctx.fillStyle='#4f583c';ctx.fillText(txt,bx+3,by+7);
 }
+function setaAjuda(){
+  if(!G||G.fim||G.t0===null||G.p.ai>0)return;var ks=Object.keys(G.esconde);if(!ks.length)return;
+  var desde=G.ultimoAchado||G.t0;if(performance.now()-desde<25000)return;
+  if(!G.dicaSeta){G.dicaSeta=1;rastreia('dica_seta');recado('Siga a setinha');}
+  var px=G.p.x+8,py=G.p.y+6,best=null,bd=1e9;ks.forEach(function(k){var a=k.split(',').map(Number),dx=a[1]*T+8-px,dy=a[0]*T+8-py,d=dx*dx+dy*dy;if(d<bd){bd=d;best=[dx,dy];}});
+  var ang=Math.atan2(best[1],best[0]),r=13+Math.sin(performance.now()/180)*1.5;
+  ctx.save();ctx.translate(px+Math.cos(ang)*r,py+Math.sin(ang)*r);ctx.rotate(ang);ctx.scale(1.35,1.35);ctx.fillStyle='#2f3524';ctx.beginPath();ctx.moveTo(5,0);ctx.lineTo(-3,-4.5);ctx.lineTo(-3,4.5);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#e8e5d6';ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(-2,-3.2);ctx.lineTo(-2,3.2);ctx.closePath();ctx.fill();ctx.restore();
+}
 function draw(){
   ctx.setTransform(Z,0,0,Z,0,0);ctx.imageSmoothingEnabled=false;
   if(!G){ctx.fillStyle='#5e6848';ctx.fillRect(0,0,COLS*T,ROWS*T);return;}
@@ -421,7 +435,9 @@ function draw(){
   G.achados.forEach(function(a){if(a.junto)return;var k=(a.pulo*1.4)%1,R=5+k*7;ctx.strokeStyle='rgba(232,229,214,'+(0.85*(1-k)).toFixed(2)+')';ctx.lineWidth=1;
     ctx.beginPath();ctx.ellipse(a.x+8,a.y+14,R,R*.45,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='rgba(232,229,214,.25)';ctx.beginPath();ctx.ellipse(a.x+8,a.y+14,6,2.7,0,0,Math.PI*2);ctx.fill();});
   G.chamas.forEach(function(f){ctx.fillStyle='rgba(255,255,255,'+(Math.max(0,f.t/FLAME)*.5).toFixed(2)+')';ctx.fillRect(f.c*T+1,f.r*T+1,T-2,T-2);});
+  G.bombas.forEach(function(b){var k=.26+.18*Math.abs(Math.sin((FUSE-b.t)*6));alcance(b).forEach(function(q){if(G.grid[q[1]][q[0]]==='B')return;ctx.fillStyle='rgba(232,229,214,'+k.toFixed(2)+')';ctx.fillRect(q[0]*T+1,q[1]*T+1,T-2,T-2);});});
   G.bombas.forEach(bomba);
+  setaAjuda();
   var L=[];
   G.achados.forEach(function(a){if(!a.junto)L.push({id:a.id,x:a.x,y:a.y-(a.festa>0?Math.abs(Math.sin(a.festa*9))*5:0),bob:Math.floor(a.pulo*3)%2,balao:'aqui!',face:Math.floor(a.pulo*.8)%2?1:-1});});
   G.trupe.forEach(function(a){L.push({id:a.id,x:a.x,y:a.y,anda:a.anda,face:a.face});});
