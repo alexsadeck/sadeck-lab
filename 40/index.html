@@ -251,7 +251,7 @@ var YEAR=360, X0=240, BIRTH=1986.84;
 var YLEN={}, YCUM={}, Y0=1986, Y1=2027, END_X;
 function buildYears(){
   var cnt={};MEM.forEach(function(m){var y=Math.floor(m.yf);cnt[y]=(cnt[y]||0)+1});
-  var acc=0;for(var y=Y0;y<=Y1;y++){YCUM[y]=acc;YLEN[y]=cnt[y]?300+150*(cnt[y]-1):170;if(y===2026)YLEN[y]+=120;acc+=YLEN[y]}
+  var acc=0;for(var y=Y0;y<=Y1;y++){YCUM[y]=acc;YLEN[y]=cnt[y]?300+150*(cnt[y]-1):170;if(y===2026)YLEN[y]+=120;if(y===2016)YLEN[y]+=650;acc+=YLEN[y]}
 }
 function F(yf){var y=clamp(Math.floor(yf),Y0,Y1);return YCUM[y]+(yf-y)*YLEN[y]}
 function X(yf){return X0+F(yf)-F(BIRTH)}
@@ -881,7 +881,7 @@ function midLayer(yf,n,sk){ SKC=mixHex(mixHex(sk[1],sk[0],.3),'#ffffff',.15);
   var i0=Math.floor((cam*p-200)/every);
   for(var i=i0;i<i0+3;i++){var x=i*every-cam*p+120; if(x>-140&&x<W+40)congresso(x,GROUND,n)}
   // paisagens especiais
-  MEM.forEach(function(m){if(!m.land)return;var la=clamp(1-Math.abs(yf-m.yf)/0.6,0,1);if(la<=0)return;var sx=(m.x-player.x)*0.5+W*0.62; if(sx<-160||sx>W+160)return;ctx.globalAlpha=la;
+  MEM.forEach(function(m){if(!m.land)return;var la=clamp(1-Math.abs(yf-m.yf)/0.6,0,1);if(la<=0)return;var sx=(m.x-player.x)*(m.land==='aurora'?0.22:0.5)+W*0.62; if(sx<-160||sx>W+160)return;ctx.globalAlpha=la;
     if(m.land==='ba')obelisco(sx,GROUND,n);
     if(m.land==='castelo')castelo(sx,GROUND,n);
     if(m.land==='aurora')nevado(sx,GROUND,n);
