@@ -211,6 +211,7 @@ function buildBitmaps(){
   SPR.mush=bmp([".....kkkk.....","...kkrrrrkk...","..krrwwrrrrk..",".krrwwwwrrwwk.",".krrwwwwrrwwk.","krrrwwrrrrrrrk","krrrrrrrwwrrrk","krwwrrrwwwwrrk","krwwrrrrwwrrrk",".kkkkkkkkkkkk.","...kssssssk...","...kssssssk...","...kssssssk...","....kkkkkk...."],{k:'#3a0a0a',r:'#e8322b',w:'#fff4e8',s:'#f2dcb0'});
   SPR.plane=bmp(["..........kk..",".........kbk..","kk......kbbk..","kbk.kkkkkbbkkk.","kbbkwwwwwwwwwwk","kbbbwbwbwbwbwbk",".kkkkkkkkbbkkk.","........kbbk...",".........kbk...","..........kk..."],{k:'#1a2a4a',w:'#ffffff',b:'#2a63d4'});
   SPR.pstar=bmp(["......k......",".....kyk.....",".....kyk.....","....kywyk....","kkkkkywykkkkk","kyyyywwwyyyyk",".kyyywwwyyyk.","..kyyyyyyyk..","...kyyyyyk...","..kyykkkyyk..","..kyk...kyk..",".kyk.....kyk.",".kk.......kk."],{k:'#8a5a00',y:'#ffe680',w:'#ffffff'});
+  SPR.snow=bmp(["....k....","..k.k.k..","...kkk...","kk.kwk.kk","..kwwwk..","kk.kwk.kk","...kkk...","..k.k.k..","....k...."],{k:'#bfe9ff',w:'#ffffff'});
   SPR.note=bmp(["...kkk","...kkk","...k..","...k..","...k..",".kkk..","kkkk..",".kk..."],{k:'#fff'});
   // dirt / grama no estilo da capa
   var g=document.createElement('canvas');g.width=16;g.height=16;var x=g.getContext('2d');
@@ -277,7 +278,8 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:1988.5, sib:'gui', cap:'Chegou o Gui, o irmão!', yr:'1988'},
   {yf:1990.5, sib:'mari', cap:'Chegou a Mari, a irmã!', yr:'1990'},
   {yf:1994.5, item:'trophy', cap:'Tetra! O Brasil é campeão do mundo.', yr:'1994', flags:true},
-  {yf:1997.5, item:'plane', cap:'Primeira viagem pra Disney!', yr:'1997', fw:true},
+  {yf:1997.5, item:'plane', cap:'Viagem à Disney!', yr:'1997', fw:true, land:'castelo'},
+  {yf:2016.5, item:'snow', cap:'Aurora boreal na Noruega e na Finlândia.', yr:'2016', land:'aurora'},
   {yf:1995.9, item:'bfstar', cap:'Botafogo campeão brasileiro!', yr:'1995'},
   {yf:2002.5, item:'trophy', cap:'Penta! Brasil campeão de novo.', yr:'2002', flags:true},
   {yf:2003.95, item:'bass', cap:'A banda. No baixo, claro.', yr:'17 ANOS'},
@@ -739,11 +741,20 @@ function draw(){
   ctx.setTransform(SCALE,0,0,SCALE,0,0);
   ctx.imageSmoothingEnabled=false;
   var sk=skyAt(yf);
+  var aur=clamp(1-Math.abs(yf-2016.5)/0.75,0,1); aur=aur*aur*(3-2*aur);
+  if(aur>0){sk=[mixHex(sk[0],'#06102e',aur*.9),mixHex(sk[1],'#163a5a',aur*.85)]}
   var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,sk[0]);gr.addColorStop(1,sk[1]);
   ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
   var dy=H-BASEH; ctx.translate(0,dy);
   var sh=fx.shake>0?(Math.random()-.5)*3:0; ctx.translate(sh,0);
-  var n=night(yf);
+  var n=Math.max(night(yf),aur);
+  if(aur>0){ctx.save();ctx.globalCompositeOperation='lighter';
+    for(var b=0;b<3;b++){var base=-dy+30+b*16;
+      for(var ax2=0;ax2<W;ax2+=2){var yv=base+Math.sin(ax2*.035+T*.6+b*1.7)*10+Math.sin(ax2*.011+T*.25+b)*14;
+        var hgt=26+Math.sin(ax2*.05+T*.9+b)*10;var g2=ctx.createLinearGradient(0,yv,0,yv+hgt);
+        var c=b===1?'120,255,200':(b===2?'170,120,255':'80,255,140');g2.addColorStop(0,'rgba('+c+',0)');g2.addColorStop(.7,'rgba('+c+','+(.28*aur)+')');g2.addColorStop(1,'rgba('+c+',0)');
+        ctx.fillStyle=g2;ctx.fillRect(ax2,yv,2,hgt)}}
+    ctx.restore()}
   // estrelas e lua
   if(n>0){
     ctx.globalAlpha=n;
@@ -865,6 +876,8 @@ function midLayer(yf,n,sk){ SKC=mixHex(mixHex(sk[1],sk[0],.3),'#ffffff',.15);
   // paisagens especiais
   MEM.forEach(function(m){if(!m.land)return;var la=clamp(1-Math.abs(yf-m.yf)/0.6,0,1);if(la<=0)return;var sx=(m.x-player.x)*0.5+W*0.62; if(sx<-160||sx>W+160)return;ctx.globalAlpha=la;
     if(m.land==='ba')obelisco(sx,GROUND,n);
+    if(m.land==='castelo')castelo(sx,GROUND,n);
+    if(m.land==='aurora')nevado(sx,GROUND,n);
     if(m.land==='olinda')bonecos(sx,GROUND,n);
     if(m.land==='amazonia')amazonia(sx,GROUND,n);
     ctx.globalAlpha=1;
@@ -888,6 +901,22 @@ function congresso(x,g,n){
   ctx.beginPath();ctx.arc(x-32,g-14,13,Math.PI,0);ctx.fill();
   ctx.fillStyle=c2;ctx.beginPath();ctx.moveTo(x+28,g-24);ctx.lineTo(x+70,g-24);ctx.lineTo(x+60,g-14);ctx.lineTo(x+38,g-14);ctx.fill();
   if(n>.4){ctx.fillStyle='rgba(255,230,140,'+(n*.8)+')';for(var k=0;k<6;k++){ctx.fillRect(Math.round(x+2),g-64+k*10,2,2);ctx.fillRect(Math.round(x+12),g-60+k*10,2,2)}}
+}
+function castelo(x,g,n){
+  var c='#e8e2f4',sh='#b9b0d6',roof='#3f63c9';
+  ctx.fillStyle=c;ctx.fillRect(Math.round(x-34),g-40,68,40);
+  [[-34,56,10],[-12,74,12],[12,64,10],[30,50,9]].forEach(function(t){var tx=Math.round(x+t[0]);ctx.fillStyle=c;ctx.fillRect(tx-t[2]/2,g-t[1],t[2],t[1]);ctx.fillStyle=sh;ctx.fillRect(tx+t[2]/2-2,g-t[1],2,t[1]);
+    ctx.fillStyle=roof;ctx.beginPath();ctx.moveTo(tx-t[2]/2-2,g-t[1]);ctx.lineTo(tx,g-t[1]-16);ctx.lineTo(tx+t[2]/2+2,g-t[1]);ctx.fill();
+    ctx.fillStyle='#ffd23a';ctx.fillRect(tx,g-t[1]-22,1,6);ctx.fillRect(tx+1,g-t[1]-22,4,2)});
+  ctx.fillStyle='#5a4a8a';ctx.beginPath();ctx.arc(x,g-10,7,Math.PI,0);ctx.fill();ctx.fillRect(Math.round(x-7),g-10,14,10);
+  ctx.fillStyle='#6a5aa0';for(var w=-26;w<30;w+=13)ctx.fillRect(Math.round(x+w),g-30,3,5);
+  if(Math.random()<.04)fireworks();
+}
+function nevado(x,g,n){
+  ctx.fillStyle='#2a3d6a';ctx.beginPath();ctx.moveTo(x-110,g);ctx.lineTo(x-55,g-70);ctx.lineTo(x-20,g-40);ctx.lineTo(x+20,g-85);ctx.lineTo(x+110,g);ctx.fill();
+  ctx.fillStyle='#e8f4ff';ctx.beginPath();ctx.moveTo(x-55,g-70);ctx.lineTo(x-66,g-56);ctx.lineTo(x-48,g-60);ctx.fill();ctx.beginPath();ctx.moveTo(x+20,g-85);ctx.lineTo(x+6,g-66);ctx.lineTo(x+20,g-72);ctx.lineTo(x+36,g-64);ctx.fill();
+  for(var i=-3;i<4;i++){var tx=Math.round(x+i*24+8);ctx.fillStyle='#1e3a3a';ctx.beginPath();ctx.moveTo(tx-7,g);ctx.lineTo(tx,g-22);ctx.lineTo(tx+7,g);ctx.fill();ctx.fillStyle='#f0f8ff';ctx.fillRect(tx-1,g-22,2,3)}
+  if(Math.random()<.5)parts.push({x:cam+Math.random()*W,y:-12,vx:-8,vy:22,life:5,k:'spark',c:'#ffffff',g:0});
 }
 function obelisco(x,g,n){var c=mix('#f2f2f2','#c8d0ee',n);ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x-6,g);ctx.lineTo(x-4,g-90);ctx.lineTo(x,g-98);ctx.lineTo(x+4,g-90);ctx.lineTo(x+6,g);ctx.fill();ctx.fillStyle='rgba(0,0,0,.15)';ctx.fillRect(Math.round(x+1),g-90,4,90);ctx.fillStyle='#74acdf';ctx.fillRect(Math.round(x+14),g-40,10,2);ctx.fillStyle='#fff';ctx.fillRect(Math.round(x+14),g-38,10,2);ctx.fillStyle='#74acdf';ctx.fillRect(Math.round(x+14),g-36,10,2);ctx.fillStyle='#888';ctx.fillRect(Math.round(x+13),g-40,1,40)}
 function bonecos(x,g,n){
