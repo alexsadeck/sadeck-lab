@@ -55,8 +55,12 @@ p.lead{color:var(--muted);font-size:18px;max-width:640px}
   background:linear-gradient(135deg,#fff3c9,var(--gold) 45%,#ffb7dc);box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,0 10px 40px rgba(246,217,139,.35),0 0 80px rgba(255,158,207,.25);
   transition:transform .25s,box-shadow .25s;opacity:0;animation:up 1.4s 1.5s forwards}
 .cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 0 1px rgba(255,255,255,.6) inset,0 14px 50px rgba(246,217,139,.5),0 0 100px rgba(255,158,207,.35)}
-.scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:.7}
-.scroll:after{content:"";display:block;width:1px;height:34px;margin:10px auto 0;background:linear-gradient(var(--muted),transparent);animation:line 2.2s infinite}
+.scroll{position:absolute;bottom:28px;left:50%;margin-left:-26px;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;color:var(--gold);
+  border:1px solid rgba(246,217,139,.45);background:rgba(246,217,139,.06);box-shadow:0 0 24px rgba(246,217,139,.25);animation:bob 2s ease-in-out infinite}
+.scroll:before{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(246,217,139,.6);animation:ring 2s ease-out infinite}
+.scroll svg{filter:drop-shadow(0 0 6px rgba(246,217,139,.8))}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+@keyframes ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
 @keyframes line{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
@@ -189,7 +193,7 @@ footer .fine a{color:#8f96c4}
       <span class="pill">2 ingressos</span>
     </div>
     <a class="cta" href="#escolha">Escolha o melhor dia <span aria-hidden="true">✦</span></a>
-    <div class="scroll">role</div>
+    <a class="scroll" href="#experiencia" aria-label="Rolar para baixo"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
   </header>
 
   <!-- EXPERIÊNCIA -->
@@ -197,7 +201,7 @@ footer .fine a{color:#8f96c4}
     <div class="wrap reveal">
       <div class="eyebrow">A experiência</div>
       <h2>Uma trilha de luz no meio da floresta</h2>
-      <p class="lead">Astra Lumina é uma caminhada noturna ao ar livre pelas árvores gigantes do Stanley Park, onde as estrelas descem até o chão. Projeções, luzes e uma trilha sonora original contam a história de estrelas que caem, renascem e voltam a brilhar no céu. É a primeira vez que a experiência acontece no Canadá, criada pelo estúdio Moment Factory, os mesmos da Vallea Lumina em Whistler.</p>
+      <p class="lead">Astra Lumina é uma caminhada noturna ao ar livre pelas árvores gigantes do Stanley Park, onde as estrelas descem até o chão. Projeções, luzes e uma trilha sonora original contam a história de estrelas que caem, renascem e voltam a brilhar no céu.</p>
       <div class="grid">
         <div class="stat"><div class="n">1,6 km</div><div class="l">de trilha iluminada, no ritmo de vocês</div></div>
         <div class="stat"><div class="n">9</div><div class="l">zonas temáticas de luz e som</div></div>
