@@ -1171,6 +1171,16 @@ function startGame(){
 document.getElementById('start').addEventListener('click',function(e){e.stopPropagation();startGame()});
 document.getElementById('skip').addEventListener('click',function(e){e.stopPropagation();showInvite(false)});
 var RANK_URL='';
+var RANK_C=(function(){var o=[];['l','I'].forEach(function(a){['O','0'].forEach(function(b){['I','l'].forEach(function(c){o.push('https://script.google.com/macros/s/AKfycbzWbjUqY_QPBJeebov9a6'+a+'gJYfdmAk9R'+b+'1hgH9fqm2Ln798pQsF'+c+'WWy3d329VirCCdB6Q/exec')})})});return o})();
+var rankP=null;
+function rankURL(){
+  if(RANK_URL)return Promise.resolve(RANK_URL);
+  if(rankP)return rankP;
+  rankP=new Promise(function(ok,no){var i=0;(function next(){if(i>=RANK_C.length){rankP=null;no();return}var u=RANK_C[i++];
+    fetch(u).then(function(r){return r.json()}).then(function(d){if(d&&d.ok){RANK_URL=u;ok(u)}else next()}).catch(next)})()});
+  return rankP;
+}
+function rankTop(){return rankURL().then(function(u){return fetch(u)}).then(function(r){return r.json()})}
 var TESTE=BOT||START_YEAR>0||TURBO!==1;
 var scoreEl=document.getElementById('score'),scTop=document.getElementById('scTop'),scMe=document.getElementById('scMe'),scName=document.getElementById('scName'),scSave=document.getElementById('scSave');
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return'&#'+c.charCodeAt(0)+';'})}
@@ -1186,9 +1196,8 @@ function showScore(){
   try{scName.value=localStorage.getItem('ak40-nome')||''}catch(e){}
   scMe.textContent='';document.getElementById('scForm').style.display='block';scSave.disabled=false;scSave.textContent='SALVAR NO RANKING';
   scoreEl.style.display='flex';
-  if(!RANK_URL){scTop.innerHTML='<li class="vazio">Ranking em breve</li>';return}
   scTop.innerHTML='<li class="vazio">carregando...</li>';
-  fetch(RANK_URL).then(function(r){return r.json()}).then(function(d){paintTop(d.top)}).catch(function(){scTop.innerHTML='<li class="vazio">Ranking indisponível agora</li>'});
+  rankTop().then(function(d){paintTop(d.top)}).catch(function(){scTop.innerHTML='<li class="vazio">Ranking indisponível agora</li>'});
 }
 scSave.addEventListener('click',function(e){
   e.stopPropagation();
@@ -1196,9 +1205,8 @@ scSave.addEventListener('click',function(e){
   if(!nome){scName.focus();return}
   try{localStorage.setItem('ak40-nome',nome)}catch(_){}
   if(TESTE){scMe.textContent='Modo de teste: pontuação não foi salva.';return}
-  if(!RANK_URL){scMe.textContent='O ranking ainda não está ligado.';return}
   scSave.disabled=true;scSave.textContent='SALVANDO...';
-  fetch(RANK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({nome:nome,pontos:score(),moedas:player.coins,diamantes:player.dias,memorias:player.mem})})
+  rankURL().then(function(u){return fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({nome:nome,pontos:score(),moedas:player.coins,diamantes:player.dias,memorias:player.mem})})})
    .then(function(r){return r.json()}).then(function(d){
      if(!d.ok)throw 0;
      paintTop(d.top,nome);document.getElementById('scForm').style.display='none';
