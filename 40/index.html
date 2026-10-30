@@ -260,7 +260,7 @@ var YEAR=360, X0=240, BIRTH=1986.84;
 var YLEN={}, YCUM={}, Y0=1986, Y1=2027, END_X;
 function buildYears(){
   var cnt={};MEM.forEach(function(m){var y=Math.floor(m.yf);cnt[y]=(cnt[y]||0)+1});
-  var acc=0;for(var y=Y0;y<=Y1;y++){YCUM[y]=acc;YLEN[y]=cnt[y]?300+150*(cnt[y]-1):170;if(y===2026)YLEN[y]+=120;if(y===2016)YLEN[y]+=650;if(y===2024)YLEN[y]+=550;acc+=YLEN[y]}
+  var acc=0;for(var y=Y0;y<=Y1;y++){YCUM[y]=acc;YLEN[y]=cnt[y]?300+150*(cnt[y]-1):170;if(y===2026)YLEN[y]+=420;if(y===2016)YLEN[y]+=650;if(y===2024)YLEN[y]+=550;acc+=YLEN[y]}
 }
 function F(yf){var y=clamp(Math.floor(yf),Y0,Y1);return YCUM[y]+(yf-y)*YLEN[y]}
 function X(yf){return X0+F(yf)-F(BIRTH)}
@@ -311,9 +311,9 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:2024.45, item:'mate', cap:'Buenos Aires com a Pati.', yr:'2024', land:'ba'},
   {yf:2024.8, item:'bfstar', cap:'Vimos o Botafogo campeão da Libertadores lá!', yr:'2024', fw:true},
   {yf:2025.15, item:'frevo', cap:'Carnaval de Olinda com a Pati.', yr:'2025', land:'olinda'},
-  {yf:2026.1, item:'leaf', cap:'Conheci a Amazônia com a Pati.', yr:'2026', land:'amazonia'},
-  {yf:2026.4, dog:'bono', cap:'O Bono chegou na família!', yr:'2026'},
-  {yf:2026.6, star:2},
+  {yf:2026.08, item:'leaf', cap:'Conheci a Amazônia com a Pati.', yr:'2026', land:'amazonia'},
+  {yf:2026.55, dog:'bono', cap:'O Bono chegou na família!', yr:'2026'},
+  {yf:2026.3, star:2},
 ];
 buildYears(); END_X=X(2026.84);
 var ITEM_TOTAL=MEM.filter(function(m){return m.item}).length;
@@ -512,9 +512,9 @@ function resetGame(){
     if(START_YEAR>2004.84){player.adult=true;level.mush.state=9}
     if(START_YEAR>2018.6)level.vstar.state=9;
     if(START_YEAR>2013.5)dogs.push(newDog('chico'));
-    if(START_YEAR>2026.4)dogs.push(newDog('bono'));
+    if(START_YEAR>2026.55)dogs.push(newDog('bono'));
     if(START_YEAR>2012.6){stars2[0]=1;level.pstars[0].state=9}
-    if(START_YEAR>2026.65){stars2[1]=1;level.pstars[1].state=9}
+    if(START_YEAR>2026.35){stars2[1]=1;level.pstars[1].state=9}
     if(START_YEAR>2023.6)level.patiG.state=9;
     MEM.forEach(function(m){if(m.yf<START_YEAR)m.done=true});
     level.items.forEach(function(it){if(it.x<player.x)it.taken=true});
