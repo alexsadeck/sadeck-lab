@@ -252,6 +252,7 @@ var hYear=document.getElementById('hYear'),hAge=document.getElementById('hAge'),
 var progI=document.querySelector('#prog i'),progE=document.querySelector('#prog em');
 var cap=document.getElementById('cap');
 var atlasImg=new Image();atlasImg.src='atlas.png';
+var TIMG={tacabr:new Image(),tacalib:new Image()};TIMG.tacabr.src='taca-br.png';TIMG.tacalib.src='taca-lib.png';
 var dogImg={chico:new Image(),bono:new Image()};dogImg.chico.src='chico.png';dogImg.bono.src='bono.png';
 
 /* ---------- mundo ---------- */
@@ -296,7 +297,7 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:1994.5, item:'trophy', cap:'Tetra! O Brasil é campeão do mundo.', yr:'1994', flags:true},
   {yf:1997.5, item:'plane', cap:'Conheci a Disney!', yr:'1997', fw:true, land:'castelo'},
   {yf:2016.5, item:'snow', cap:'Vi a aurora boreal!', yr:'2016', land:'aurora'},
-  {yf:1995.9, item:'bfstar', cap:'Botafogo campeão brasileiro!', yr:'1995'},
+  {yf:1995.9, item:'tacabr', cap:'Botafogo campeão brasileiro!', yr:'1995'},
   {yf:2002.5, item:'trophy', cap:'Penta! Brasil campeão de novo.', yr:'2002', flags:true},
   {yf:2003.95, item:'bass', cap:'Entrei para uma banda de Metal!', yr:'17 ANOS'},
   {yf:2004.84, mush:true, cap:'Cogumelo! Fase adulta desbloqueada.', yr:'18 ANOS'},
@@ -309,7 +310,7 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:2020.2, item:'mask', cap:'Pandemia. Desvia do vírus!', yr:'2020'},
   {yf:2022.5, item:'key', cap:'Morando sozinho. Chave na mão.', yr:'2022'},
   {yf:2023.5, pati:true, cap:'Conheci a Pati.', yr:'2023'},
-  {yf:2024.45, item:'cup2', cap:'Buenos Aires com a Pati.', yr:'2024', land:'ba'},
+  {yf:2024.45, item:'tacalib', cap:'Buenos Aires com a Pati.', yr:'2024', land:'ba'},
   {yf:2024.8, item:'bfstar', cap:'Vimos o Botafogo campeão da Libertadores lá!', yr:'2024', fw:true},
   {yf:2025.15, item:'frevo', cap:'Carnaval de Olinda com a Pati.', yr:'2025', land:'olinda'},
   {yf:2026.08, item:'leaf', cap:'Conheci a Amazônia com a Pati.', yr:'2026', land:'amazonia'},
@@ -809,8 +810,9 @@ function draw(){
   // moedas
   level.coins.forEach(function(c){if(c.t)return;var sx=c.x-cam;if(sx<-10||sx>W+10)return;var k=Math.abs(Math.cos(T*4+c.x*.05));var w=Math.max(2,8*k);ctx.drawImage(SPR.coin,Math.round(sx-w/2),Math.round(c.y-5),Math.round(w),10)});
   // memórias
-  level.items.forEach(function(it){if(it.taken)return;var sx=it.x-cam;if(sx<-20||sx>W+20)return;var c=SPR[it.k];var b=Math.sin(T*3+it.x)*2;
+  level.items.forEach(function(it){if(it.taken)return;var sx=it.x-cam;if(sx<-20||sx>W+20)return;var c=SPR[it.k]||SPR.coin;var b=Math.sin(T*3+it.x)*2;
     var rg=ctx.createRadialGradient(sx,it.y+b,0,sx,it.y+b,26);rg.addColorStop(0,'rgba(255,255,220,.6)');rg.addColorStop(1,'rgba(255,255,220,0)');ctx.fillStyle=rg;ctx.fillRect(sx-26,it.y+b-26,52,52);
+    if(TIMG[it.k]){var ti=TIMG[it.k],th=32,tw=ti.width*th/ti.height;ctx.imageSmoothingEnabled=true;ctx.drawImage(ti,Math.round(sx-tw/2),Math.round(it.y+b-th/2),tw,th);ctx.imageSmoothingEnabled=false;return}
     var sc2=c.height>16?1.6:2;ctx.drawImage(c,Math.round(sx-c.width*sc2/2),Math.round(it.y+b-c.height*sc2/2),Math.round(c.width*sc2),Math.round(c.height*sc2))});
   // bloco 18 + cogumelo
   var M=level.mush, mbx=M.x-cam;
