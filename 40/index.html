@@ -221,6 +221,7 @@ function buildBitmaps(){
   SPR.plane=bmp(["..........kk..",".........kbk..","kk......kbbk..","kbk.kkkkkbbkkk.","kbbkwwwwwwwwwwk","kbbbwbwbwbwbwbk",".kkkkkkkkbbkkk.","........kbbk...",".........kbk...","..........kk..."],{k:'#1a2a4a',w:'#ffffff',b:'#2a63d4'});
   SPR.pstar=bmp(["......k......",".....kyk.....",".....kyk.....","....kywyk....","kkkkkywykkkkk","kyyyywwwyyyyk",".kyyywwwyyyk.","..kyyyyyyyk..","...kyyyyyk...","..kyykkkyyk..","..kyk...kyk..",".kyk.....kyk.",".kk.......kk."],{k:'#8a5a00',y:'#ffe680',w:'#ffffff'});
   SPR.snow=bmp(["....k....","..k.k.k..","...kkk...","kk.kwk.kk","..kwwwk..","kk.kwk.kk","...kkk...","..k.k.k..","....k...."],{k:'#bfe9ff',w:'#ffffff'});
+  SPR.cup2=bmp(["..kkkkkkkkk..","kkkwsssssakkk","k.kwsssssak.k","k.kwsssssak.k",".kkwsssssakk.","...kwsssak...","....kwsak....",".....kak.....",".....ksk.....","....kwsak....","...kkkkkkk...","..koooooook..","..kogggggok..","..koooooook..","..kkkkkkkkk.."],{k:'#2a2f3a',w:'#ffffff',s:'#c9d1de',a:'#8a94a8',o:'#ffd23a',g:'#1f8a3c'});
   SPR.note=bmp(["...kkk","...kkk","...k..","...k..","...k..",".kkk..","kkkk..",".kk..."],{k:'#fff'});
   // dirt / grama no estilo da capa
   var g=document.createElement('canvas');g.width=16;g.height=16;var x=g.getContext('2d');
@@ -297,7 +298,7 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:2016.5, item:'snow', cap:'Vi a aurora boreal!', yr:'2016', land:'aurora'},
   {yf:1995.9, item:'bfstar', cap:'Botafogo campeão brasileiro!', yr:'1995'},
   {yf:2002.5, item:'trophy', cap:'Penta! Brasil campeão de novo.', yr:'2002', flags:true},
-  {yf:2003.95, item:'bass', cap:'A banda. No baixo, claro.', yr:'17 ANOS'},
+  {yf:2003.95, item:'bass', cap:'Entrei para uma banda de Metal!', yr:'17 ANOS'},
   {yf:2004.84, mush:true, cap:'Cogumelo! Fase adulta desbloqueada.', yr:'18 ANOS'},
   {yf:2007.9, item:'badge', cap:'Primeiro emprego.', yr:'21 ANOS'},
   {yf:2008.95, item:'hockey', cap:'Hora do hockey.', yr:'22 ANOS'},
@@ -308,7 +309,7 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:2020.2, item:'mask', cap:'Pandemia. Desvia do vírus!', yr:'2020'},
   {yf:2022.5, item:'key', cap:'Morando sozinho. Chave na mão.', yr:'2022'},
   {yf:2023.5, pati:true, cap:'Conheci a Pati.', yr:'2023'},
-  {yf:2024.45, item:'mate', cap:'Buenos Aires com a Pati.', yr:'2024', land:'ba'},
+  {yf:2024.45, item:'cup2', cap:'Buenos Aires com a Pati.', yr:'2024', land:'ba'},
   {yf:2024.8, item:'bfstar', cap:'Vimos o Botafogo campeão da Libertadores lá!', yr:'2024', fw:true},
   {yf:2025.15, item:'frevo', cap:'Carnaval de Olinda com a Pati.', yr:'2025', land:'olinda'},
   {yf:2026.08, item:'leaf', cap:'Conheci a Amazônia com a Pati.', yr:'2026', land:'amazonia'},
@@ -1115,7 +1116,7 @@ document.getElementById('start').addEventListener('click',function(e){e.stopProp
 document.getElementById('skip').addEventListener('click',function(e){e.stopPropagation();showInvite(false)});
 var invite=document.getElementById('invite');
 function showInvite(played){
-  var msg='Oi, Alex! '+(played?'Cheguei aos 40 no Enigma dos 40 e ':'')+'Confirmo presença no dia 8 de novembro, às 13h! 🎉';
+  var msg='Uhuh! Bora nessa. Confirmo a minha presença';
   document.getElementById('zap').href='https://wa.me/5561992757575?text='+encodeURIComponent(msg);
   document.getElementById('stats').innerHTML=played?('Moedas: <b>'+player.coins+'</b> · Memórias: <b>'+player.mem+'/'+ITEM_TOTAL+'</b>'):'';
   document.querySelector('#invite .again').textContent=played?'JOGAR DE NOVO':'JOGAR O JOGO';
