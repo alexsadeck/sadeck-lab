@@ -247,9 +247,15 @@ var dogImg={chico:new Image(),bono:new Image()};dogImg.chico.src='chico.png';dog
 /* ---------- mundo ---------- */
 var GROUND=176, BASEH=216;
 var YEAR=360, X0=240, BIRTH=1986.84;
-function X(yf){return X0+(yf-BIRTH)*YEAR}
-function YF(x){return BIRTH+(x-X0)/YEAR}
-var END_X=X(2026.84);
+// cada ano tem um comprimento próprio: anos sem marcos passam rápido, anos cheios passam devagar
+var YLEN={}, YCUM={}, Y0=1986, Y1=2027, END_X;
+function buildYears(){
+  var cnt={};MEM.forEach(function(m){var y=Math.floor(m.yf);cnt[y]=(cnt[y]||0)+1});
+  var acc=0;for(var y=Y0;y<=Y1;y++){YCUM[y]=acc;YLEN[y]=cnt[y]?300+150*(cnt[y]-1):170;if(y===2026)YLEN[y]+=120;acc+=YLEN[y]}
+}
+function F(yf){var y=clamp(Math.floor(yf),Y0,Y1);return YCUM[y]+(yf-y)*YLEN[y]}
+function X(yf){return X0+F(yf)-F(BIRTH)}
+function YF(x){var f=x-X0+F(BIRTH);var y=Y0;while(y<Y1&&YCUM[y+1]<=f)y++;return y+(f-YCUM[y])/YLEN[y]}
 var W=270,H=216,SCALE=1,DPR=1;
 
 var level, player, dogs, parts, events, cam, state, T, stars2, fx;
@@ -300,6 +306,7 @@ var MEM=[ // memórias coletáveis e marcos
   {yf:2026.4, dog:'bono', cap:'O Bono chegou na família!', yr:'2026'},
   {yf:2026.6, star:2},
 ];
+buildYears(); END_X=X(2026.84);
 var ITEM_TOTAL=MEM.filter(function(m){return m.item}).length;
 
 function genLevel(){
