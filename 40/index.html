@@ -39,6 +39,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 #hud b{color:var(--gold);font-weight:normal}
 #hud small{display:block;font-size:7px;color:#9fb3ff;letter-spacing:1px}
 .coin-ico{display:inline-block;width:10px;height:12px;vertical-align:-2px;margin-right:4px;background:linear-gradient(90deg,#7a4a00 0 15%,#ffd23a 15% 45%,#e09a10 45% 55%,#ffd23a 55% 85%,#7a4a00 85%);border-radius:40%}
+#hud .hb{background:#0006;border:2px solid #fff6;border-radius:6px;padding:6px 8px;font-size:10px;line-height:1;font-family:"Press Start 2P",monospace;margin-right:-6px}
 #mute{background:#0006;border:2px solid #fff6;border-radius:6px;padding:6px 7px;font-size:10px;line-height:1;font-family:"Press Start 2P",monospace}
 #prog{position:relative;height:6px;margin:0 12px 8px;background:#ffffff22;border-radius:3px;z-index:5}
 #prog i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#ff9a6b,#ffd23a,#7cf07c);border-radius:3px}
@@ -95,6 +96,14 @@ body.port #hud{padding-top:calc(10px + var(--safe-t))}
 #intro.out{animation:fadeo .5s forwards}
 @keyframes fadeo{to{opacity:0}}
 
+/* ===== PAUSA ===== */
+#pause{position:fixed;inset:0;z-index:28;display:none;align-items:center;justify-content:center;padding:24px;background:#0b1440cc}
+#pause .card{width:100%;max-width:300px;background:#101a52;border:4px solid #fff;box-shadow:0 0 0 4px #000,8px 8px 0 4px #0009;padding:20px 16px;text-align:center;animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+#pause .t{font-family:"Press Start 2P";font-size:20px;color:var(--gold);text-shadow:3px 3px 0 var(--red),5px 5px 0 #000;margin:4px 0 16px;animation:blink 1.2s steps(2) infinite}
+#pause .b{display:block;width:100%;margin-top:12px;font-family:"Press Start 2P";font-size:11px;padding:14px 10px;border:0;box-shadow:0 0 0 3px #000,0 5px 0 3px #000;color:#fff}
+#pause .cont{background:#1fa855}#pause .rest{background:var(--red)}#pause .inv{background:#5a4b8a}
+#score .card{position:relative}
+#score .x{position:absolute;top:8px;right:8px;width:34px;height:34px;background:#0a0f2a;border:2px solid #fff;color:#fff;font-size:16px;line-height:1;padding:0}
 /* ===== PLACAR ===== */
 #score{position:fixed;inset:0;z-index:29;display:none;align-items:center;justify-content:center;padding:18px;background:#0b1440aa;backdrop-filter:blur(2px)}
 #score .card{width:100%;max-width:360px;background:#101a52;border:4px solid #fff;box-shadow:0 0 0 4px #000,10px 10px 0 4px #0009;padding:18px 16px;text-align:center;animation:pop .6s cubic-bezier(.3,1.6,.5,1) both;max-height:100%;overflow:auto}
@@ -156,6 +165,7 @@ body.port #hud{padding-top:calc(10px + var(--safe-t))}
     </div>
     <div class="grp">
       <div><small>PONTOS</small><span id="hCoins">0</span></div>
+      <button id="pauseB" class="hb" aria-label="Pausar">❚❚</button>
       <button id="mute" aria-label="Som">♪ ON</button>
     </div>
   </div>
@@ -177,8 +187,18 @@ body.port #hud{padding-top:calc(10px + var(--safe-t))}
 
 <div id="intro"><div class="l1">MUNDO 1986</div><div class="l2">BRASÍLIA<br>04 · 11 · 1986<br>06H12</div></div>
 
+<div id="pause">
+  <div class="card">
+    <div class="t">PAUSA</div>
+    <button class="b cont" id="pCont">▶ CONTINUAR</button>
+    <button class="b rest" id="pRest">↺ RECOMEÇAR</button>
+    <button class="b inv" id="pInv">VER O CONVITE ›</button>
+  </div>
+</div>
+
 <div id="score">
   <div class="card">
+    <button class="x" id="scX" aria-label="Fechar">✕</button>
     <div class="k">★ FASE COMPLETA ★</div>
     <div class="big"><small>PONTOS</small><span id="scTotal">0</span></div>
     <div class="brk" id="scBrk"></div>
@@ -463,6 +483,7 @@ function speedNow(){
 /* ---------- entrada ---------- */
 var pressed=false, pressT=0;
 function press(){
+  if(paused)return;
   if(state==='ready'){startRun();return}
   if(state!=='play')return;
   pressed=true;pressT=0.12; // buffer de pulo
@@ -507,6 +528,7 @@ var SFX={
 var LEAD=[72,0,76,79,0,76,72,74, 76,0,74,72,69,0,67,0, 72,0,76,79,0,81,79,76, 77,0,76,74,72,0,0,0, 69,0,72,76,0,74,72,69, 71,0,72,74,79,0,77,76, 74,0,72,71,72,74,76,77, 79,0,76,0,72,0,0,0];
 var ROOT=[48,45,48,41,41,43,43,48];
 var STARL=[84,79,84,88,84,79,84,91, 86,81,86,89,86,81,86,93];
+var paused=false;
 function sched(){
   if(!AU.ctx||state==='title')return;
   var spb=(AU.mode==='star'?0.13:0.19);
@@ -1129,6 +1151,7 @@ var last=0, acc=0, running=false;
 function frame(ts){
   requestAnimationFrame(frame);
   if(!running)return;
+  if(paused){last=ts;draw();return}
   var dt=Math.min(.05,(ts-last)/1000||0)*TURBO;last=ts;
   acc+=dt; var step=1/120;
   var guard=0;while(acc>=step&&guard++<40){update(step);acc-=step}if(guard>=40)acc=0;
@@ -1229,7 +1252,21 @@ document.getElementById('again').addEventListener('click',function(e){e.stopProp
   resetGame();state='ready';AU.mode='main';document.getElementById('tap').style.display='flex';musicStart()});
 invite.addEventListener('pointerdown',function(e){e.stopPropagation()});
 
-document.addEventListener('visibilitychange',function(){if(!AU.ctx)return;if(document.hidden)AU.ctx.suspend();else AU.ctx.resume()});
+var pauseEl=document.getElementById('pause');
+function canPause(){return state==='play'||state==='ready'||state==='transform'}
+function setPause(on){
+  if(on&&!canPause())return;
+  paused=on;pauseEl.style.display=on?'flex':'none';release();
+  if(AU.ctx){if(on)AU.ctx.suspend();else AU.ctx.resume()}
+}
+document.getElementById('pauseB').addEventListener('click',function(e){e.stopPropagation();setPause(!paused)});
+document.getElementById('pCont').addEventListener('click',function(e){e.stopPropagation();setPause(false)});
+document.getElementById('pRest').addEventListener('click',function(e){e.stopPropagation();setPause(false);resetGame();state='ready';AU.mode='main';document.getElementById('tap').style.display='flex';musicStart()});
+document.getElementById('pInv').addEventListener('click',function(e){e.stopPropagation();setPause(false);state='invite';showInvite(true)});
+pauseEl.addEventListener('pointerdown',function(e){e.stopPropagation()});
+document.getElementById('scX').addEventListener('click',function(e){e.stopPropagation();scoreEl.style.display='none';showInvite(true)});
+addEventListener('keydown',function(e){if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();setPause(!paused)}});
+document.addEventListener('visibilitychange',function(){if(document.hidden&&state==='play'&&!paused)setPause(true);if(!AU.ctx)return;if(document.hidden)AU.ctx.suspend();else if(!paused)AU.ctx.resume()});
 addEventListener('resize',function(){sizeAll();setArt()});
 
 state='title';
