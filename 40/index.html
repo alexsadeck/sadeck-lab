@@ -124,7 +124,7 @@ body.port #hud{padding-top:calc(10px + var(--safe-t))}
 #score ol{list-style:none;margin:10px 0 0;padding:0}
 #score li{display:flex;justify-content:space-between;align-items:center;font-family:"Press Start 2P";font-size:11px;padding:8px 6px;border-bottom:1px solid #ffffff18}
 #score li span:first-child{display:flex;gap:8px;align-items:center}
-#score li.p1{color:#ffd23a}#score li.p2{color:#dfe6f0}#score li.p3{color:#e0a070}
+#score li.p1{color:#ffd23a}#score li.p2{color:#dfe6f0}#score li.p3{color:#e0a070}#score li.p4,#score li.p5{color:#b8c6ff;font-size:10px}
 #score li.eu{background:#ffffff14}
 #score li.vazio{justify-content:center;color:#8f9ac0;font-size:9px}
 #score .me{font-size:14px;margin-top:8px;color:#cfe0ff}
@@ -207,7 +207,7 @@ body.port #hud{padding-top:calc(10px + var(--safe-t))}
       <input id="scName" maxlength="10" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="até 10 letras">
       <button class="b save" id="scSave">SALVAR NO RANKING</button>
     </div>
-    <div class="top"><b>TOP 3</b><ol id="scTop"><li class="vazio">carregando...</li></ol><div class="me" id="scMe"></div></div>
+    <div class="top"><b>TOP 5</b><ol id="scTop"><li class="vazio">carregando...</li></ol><div class="me" id="scMe"></div></div>
     <button class="b go" id="scGo">VER O CONVITE ›</button>
   </div>
 </div>
@@ -1209,8 +1209,8 @@ var scoreEl=document.getElementById('score'),scTop=document.getElementById('scTo
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return'&#'+c.charCodeAt(0)+';'})}
 function paintTop(top,meName){
   if(!top||!top.length){scTop.innerHTML='<li class="vazio">Ninguém ainda. Seja o primeiro!</li>';return}
-  var md=['🥇','🥈','🥉'];
-  scTop.innerHTML=top.slice(0,3).map(function(r,i){var eu=meName&&r.nome.toLowerCase()===meName.toLowerCase();return '<li class="p'+(i+1)+(eu?' eu':'')+'"><span>'+md[i]+' '+esc(r.nome)+'</span><span>'+r.pontos+'</span></li>'}).join('');
+  var md=['🥇','🥈','🥉','4º','5º'];
+  scTop.innerHTML=top.slice(0,5).map(function(r,i){var eu=meName&&r.nome.toLowerCase()===meName.toLowerCase();return '<li class="p'+(i+1)+(eu?' eu':'')+'"><span>'+md[i]+' '+esc(r.nome)+'</span><span>'+r.pontos+'</span></li>'}).join('');
 }
 function showScore(){
   var p=player;
