@@ -1073,7 +1073,12 @@ function sign(x,yr){
   ctx.fillStyle='#8a5a2b';ctx.fillRect(x-14,GROUND-28,28,11);ctx.fillStyle='#5a3a1a';ctx.fillRect(x-14,GROUND-18,28,1);
   ctx.fillStyle='#fff3d0';ctx.font='6px "Press Start 2P"';ctx.textAlign='center';ctx.fillText(String(yr),x,GROUND-20);ctx.textAlign='left';
 }
+var BEBE={gui:new Image(),mari:new Image()};BEBE.gui.src='bebe-gui.png';BEBE.mari.src='bebe-mari.png';
 function sibling(x,g,k){
+  var im=BEBE[k];if(im&&im.complete&&im.width){var h=22,w=h*im.width/im.height,rk=Math.sin(T*3+(k==='gui'?0:1))*0.12;
+    ctx.save();ctx.translate(Math.round(x),g);ctx.rotate(rk);ctx.imageSmoothingEnabled=true;ctx.drawImage(im,-w/2,-h,w,h);ctx.imageSmoothingEnabled=false;ctx.restore();
+    var hb=Math.sin(T*3)*2;ctx.drawImage(SPR.heart,Math.round(x-4),Math.round(g-h-12+hb));return}
+
   x=Math.round(x);var up=Math.sin(T*8)>0;
   var shirt=k==='gui'?'#2a63d4':'#e85fa8', hair='#5a3418';
   ctx.fillStyle='#1a1208';ctx.fillRect(x-4,g-2,3,2);ctx.fillRect(x+1,g-2,3,2);
