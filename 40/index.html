@@ -312,7 +312,7 @@ var progI=document.querySelector('#prog i'),progE=document.querySelector('#prog 
 var cap=document.getElementById('cap');
 var atlasImg=new Image();atlasImg.src='atlas.png';
 var DIA=new Image();DIA.src='diamante.png';
-var TIMG={tacabr:new Image(),tacalib:new Image(),tacawc:new Image()};TIMG.tacawc.src='taca-copa.png';TIMG.tacabr.src='taca-br.png';TIMG.tacalib.src='taca-lib.png';
+var TIMG={tacabr:new Image(),tacalib:new Image(),tacawc:new Image(),frevo:new Image(),hockey:new Image(),bass:new Image(),plane:new Image()};TIMG.frevo.src='frevo.png';TIMG.hockey.src='hockey.png';TIMG.bass.src='baixo.png';TIMG.plane.src='aviao.png';var TH={frevo:30,hockey:38,bass:42,plane:24};var MOUND=new Image();MOUND.src='cupinzeiro.png';TIMG.tacawc.src='taca-copa.png';TIMG.tacabr.src='taca-br.png';TIMG.tacalib.src='taca-lib.png';
 var dogImg={chico:new Image(),bono:new Image()};dogImg.chico.src='chico.png';dogImg.bono.src='bono.png';
 
 /* ---------- mundo ---------- */
@@ -880,7 +880,7 @@ function draw(){
   // memórias
   level.items.forEach(function(it){if(it.taken)return;var sx=it.x-cam;if(sx<-20||sx>W+20)return;var c=SPR[it.k]||SPR.coin;var b=Math.sin(T*3+it.x)*2;
     var rg=ctx.createRadialGradient(sx,it.y+b,0,sx,it.y+b,26);rg.addColorStop(0,'rgba(255,255,220,.6)');rg.addColorStop(1,'rgba(255,255,220,0)');ctx.fillStyle=rg;ctx.fillRect(sx-26,it.y+b-26,52,52);
-    if(TIMG[it.k]){var ti=TIMG[it.k],th=32,tw=ti.width*th/ti.height;ctx.imageSmoothingEnabled=true;ctx.drawImage(ti,Math.round(sx-tw/2),Math.round(it.y+b-th/2),tw,th);ctx.imageSmoothingEnabled=false;return}
+    if(TIMG[it.k]){var ti=TIMG[it.k],th=TH[it.k]||32,tw=ti.width*th/ti.height;ctx.imageSmoothingEnabled=true;ctx.drawImage(ti,Math.round(sx-tw/2),Math.round(it.y+b-th/2),tw,th);ctx.imageSmoothingEnabled=false;return}
     var sc2=c.height>16?1.6:2;ctx.drawImage(c,Math.round(sx-c.width*sc2/2),Math.round(it.y+b-c.height*sc2/2),Math.round(c.width*sc2),Math.round(c.height*sc2))});
   // bloco 18 + cogumelo
   var M=level.mush, mbx=M.x-cam;
@@ -901,7 +901,7 @@ function draw(){
     if(Math.sin(T*5+d.x)>.9){ctx.fillStyle='#fff';ctx.fillRect(Math.round(sx+3),Math.round(d.y+b-5),1,3);ctx.fillRect(Math.round(sx+2),Math.round(d.y+b-4),3,1)}});
   // obstáculos
   level.obs.forEach(function(o){if(o.dead)return;var sx=o.x-cam;if(sx<-20||sx>W+20)return;
-    if(o.k==='mound'){ctx.drawImage(SPR.mound,Math.round(sx-7),Math.round(GROUND-o.h),14,o.h)}
+    if(o.k==='mound'){var mh=o.h+9,mw=mh*MOUND.width/(MOUND.height||1);ctx.imageSmoothingEnabled=true;ctx.drawImage(MOUND,Math.round(sx-mw/2),Math.round(GROUND-mh+1),mw,mh);ctx.imageSmoothingEnabled=false}
     else if(o.k==='tatu'){ctx.save();ctx.translate(Math.round(sx),Math.round(o.y-6));ctx.rotate(Math.round(o.rot/(Math.PI/2))*(Math.PI/2));ctx.drawImage(SPR.tatu,-6,-6);ctx.restore()}
     else if(o.k==='virus'){ctx.save();ctx.translate(Math.round(sx),Math.round(o.y));ctx.rotate(Math.sin(T*2+o.ph)*.3);ctx.drawImage(SPR.virus,-5.5,-5.5);ctx.restore()}
   });
