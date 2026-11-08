@@ -21,7 +21,7 @@ html,body{margin:0;height:100%;background:#0b1440;overflow:hidden;cursor:none}
 .qr{text-align:center;font-family:"Pixelify Sans";color:#fff;font-size:2vw}
 .qr .q{width:19vw;height:19vw;background:#fff;padding:1vw;border:.5vw solid #000;box-shadow:0 0 0 .5vw #fff;margin:0 auto 1.6vw}
 .qr b{display:block;font-family:"Press Start 2P";font-weight:normal;color:#ffd23a;font-size:1.6vw;margin-bottom:1vw}
-#mini{position:fixed;right:1.6vw;bottom:1.6vw;display:flex;align-items:center;gap:1vw;background:#101a52ee;border:.3vw solid #fff;box-shadow:0 0 0 .3vw #000;padding:.8vw;z-index:5}
+#mini{transition:opacity .6s;position:fixed;right:1.6vw;bottom:1.6vw;display:flex;align-items:center;gap:1vw;background:#101a52ee;border:.3vw solid #fff;box-shadow:0 0 0 .3vw #000;padding:.8vw;z-index:5}
 #mini .q2{width:6vw;height:6vw;background:#fff;padding:.4vw}
 #mini .t2{font-family:"Pixelify Sans";color:#fff;font-size:1.1vw;line-height:1.5}
 #mini b{display:block;font-family:"Press Start 2P";font-weight:normal;color:#ffd23a;font-size:.85vw;margin-bottom:.4vw}
@@ -71,7 +71,7 @@ var DUR=[19,12,18],TOT=49,scene=-1,st=0;
 var selo=document.getElementById('selo'),rank=document.getElementById('rank');
 function frame(ts){requestAnimationFrame(frame);var dt=Math.min(.05,(ts-last)/1000||0);last=ts;T+=dt;
   var tt=T%TOT,sc=tt<DUR[0]?0:tt<DUR[0]+DUR[1]?1:2,lt=sc===0?tt:sc===1?tt-DUR[0]:tt-DUR[0]-DUR[1];
-  if(sc!==scene){scene=sc;parts=[];selo.classList.toggle('on',sc===1);rank.classList.toggle('on',sc===2);if(sc===2)loadRank()}
+  if(sc!==scene){scene=sc;parts=[];selo.classList.toggle('on',sc===1);rank.classList.toggle('on',sc===2);document.getElementById('mini').style.opacity=sc===2?0:1;if(sc===2)loadRank()}
   ctx.setTransform(S,0,0,S,0,0);ctx.imageSmoothingEnabled=false;
   if(sc===0)sceneA(lt);else if(sc===1)sceneB(lt);else sceneC(lt);
   for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt;if(p.life<=0){parts.splice(i,1);continue}
