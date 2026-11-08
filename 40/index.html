@@ -492,8 +492,21 @@ function press(){
 function release(){player.holding=false;pressed=false}
 stage.parentNode.addEventListener('pointerdown',function(e){if(e.target.closest('button'))return;e.preventDefault();press()});
 addEventListener('pointerup',release);addEventListener('pointercancel',release);
-addEventListener('keydown',function(e){if(e.target&&e.target.tagName==='INPUT')return;if(e.repeat)return;if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){e.preventDefault();if(state==='title'){startGame();return}press()}});
-addEventListener('keyup',function(e){if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW')release()});
+function isJumpKey(e){return e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'||e.key==='Enter'||e.keyCode===13||e.key==='Select'||e.code==='NumpadEnter'}
+function overlayOpen(){return ['score','invite','pause'].some(function(id){var el=document.getElementById(id);return el&&getComputedStyle(el).display!=='none'})}
+var keyTimer=null;
+addEventListener('keydown',function(e){
+  if(e.target&&e.target.tagName==='INPUT')return;
+  if(e.keyCode===10009||e.key==='GoBack'||e.key==='BrowserBack'){if(state==='play'||state==='ready'){e.preventDefault();setPause(!paused)}return}
+  if(!isJumpKey(e)||overlayOpen())return;
+  e.preventDefault();
+  if(e.repeat)return;
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  if(state==='title'){startGame();return}
+  press();
+  clearTimeout(keyTimer);keyTimer=setTimeout(release,350);
+});
+addEventListener('keyup',function(e){if(isJumpKey(e)){clearTimeout(keyTimer);release()}});
 
 /* ---------- áudio (chiptune original, gerado no navegador) ---------- */
 var AU={ctx:null,out:null,on:true,nextT:0,step:0,mode:'main',timer:null};
