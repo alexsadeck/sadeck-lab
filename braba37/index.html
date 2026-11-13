@@ -690,11 +690,15 @@ function sched(){
     AU.step++;AU.nextT+=spb;
   }
 }
-function musicStart(){if(!AU.ctx)return;AU.nextT=AU.ctx.currentTime+.05;AU.step=0;if(!AU.timer)AU.timer=setInterval(sched,30)}
+// trilha do Alex (musica.mp3) toca ao fundo; os efeitos continuam no chiptune
+var BGM=new Audio('musica.mp3');BGM.loop=true;BGM.preload='auto';BGM.volume=.75;
+function bgmPlay(from0){if(FAST)return;if(from0)try{BGM.currentTime=0}catch(e){}BGM.muted=!AU.on;var p=BGM.play();if(p&&p.catch)p.catch(function(){})}
+function bgmUnlock(){if(FAST)return;BGM.muted=true;var p=BGM.play();if(p&&p.then)p.then(function(){BGM.pause();BGM.muted=!AU.on}).catch(function(){})}
+function musicStart(){bgmPlay(true)}
 var muteB=document.getElementById('mute');
 function paintMute(){muteB.textContent=AU.on?'♪ ON':'♪ OFF'}
 paintMute();
-muteB.addEventListener('click',function(e){e.stopPropagation();AU.on=!AU.on;try{localStorage.setItem('braba37-som',AU.on?'1':'0')}catch(_){};audioInit();if(AU.out)AU.out.gain.value=AU.on?.45:0;paintMute()});
+muteB.addEventListener('click',function(e){e.stopPropagation();AU.on=!AU.on;try{localStorage.setItem('braba37-som',AU.on?'1':'0')}catch(_){};audioInit();if(AU.out)AU.out.gain.value=AU.on?.45:0;BGM.muted=!AU.on;paintMute()});
 
 /* ---------- legendas ---------- */
 var capQ=[],capT=0;
@@ -1299,7 +1303,7 @@ setArt();
 function startGame(){
   if(state&&state!=='title')return;
   audioInit(); if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume();
-  SFX.coin();
+  bgmUnlock();SFX.coin();
   title.classList.add('out');
   setTimeout(function(){title.style.display='none';intro.style.display='flex';
     setTimeout(function(){intro.classList.add('out');
@@ -1384,6 +1388,7 @@ function setPause(on){
   if(on&&!canPause())return;
   paused=on;pauseEl.style.display=on?'flex':'none';release();
   if(AU.ctx){if(on)AU.ctx.suspend();else AU.ctx.resume()}
+  if(on)BGM.pause();else if(state==='play'||state==='transform'||state==='cig')bgmPlay(false);
 }
 document.getElementById('pauseB').addEventListener('click',function(e){e.stopPropagation();setPause(!paused)});
 document.getElementById('pCont').addEventListener('click',function(e){e.stopPropagation();setPause(false)});
@@ -1392,7 +1397,7 @@ document.getElementById('pInv').addEventListener('click',function(e){e.stopPropa
 pauseEl.addEventListener('pointerdown',function(e){e.stopPropagation()});
 document.getElementById('scX').addEventListener('click',function(e){e.stopPropagation();scoreEl.style.display='none';showInvite(true)});
 addEventListener('keydown',function(e){if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();setPause(!paused)}});
-document.addEventListener('visibilitychange',function(){if(document.hidden&&state==='play'&&!paused&&!BOT)setPause(true);if(!AU.ctx)return;if(document.hidden)AU.ctx.suspend();else if(!paused)AU.ctx.resume()});
+document.addEventListener('visibilitychange',function(){if(document.hidden&&state==='play'&&!paused&&!BOT)setPause(true);if(document.hidden)BGM.pause();else if(!paused&&state!=='title'&&state!=='ready'&&running)bgmPlay(false);if(!AU.ctx)return;if(document.hidden)AU.ctx.suspend();else if(!paused)AU.ctx.resume()});
 addEventListener('resize',function(){sizeAll()});
 
 /* ---------- modo de teste rápido: roda a fase inteira sem desenhar ---------- */
