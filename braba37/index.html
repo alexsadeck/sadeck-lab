@@ -546,6 +546,37 @@ function genLevel(){
   return L;
 }
 
+// DESAFIO: escadinha de lajes estreitas sobre um vão, com 10 moedas e 1 diamante
+// posicionados em cima das trajetórias reais da física (só pega tudo com o timing e a força certos do pulo)
+var COMBO=null;
+function addCombo(L){
+  var sx=Math.round(X(2015.45)/16)*16, a=sx-90, z=sx+380, keep=level;
+  function out(o){return o.x<a||o.x>z}
+  L.coins=L.coins.filter(out);L.dias=L.dias.filter(out);L.obs=L.obs.filter(out);
+  L.plats=L.plats.filter(function(p){return p.x+p.n*16<a||p.x>z});L.gaps=L.gaps.filter(function(g){return g[1]<a||g[0]>z});
+  var A={x:sx,y:GROUND-24,n:2},B={x:sx+80,y:GROUND-44,n:2},Cc={x:sx+160,y:GROUND-64,n:2};
+  L.plats.push(A,B,Cc);L.gaps.push([sx+32,sx+272]);
+  level=L;
+  function sim(x0,y0,tx,h){var P={x:x0,y:y0,vy:0,on:true,adult:true,hold:0,holding:false,star:0,tumble:0,coyote:0,pressT:0},tr=[],t=0,j=false,ta=0;
+    for(var k=0;k<600;k++){if(!j&&P.x>=tx){P.pressT=.12;P.holding=true;j=true;ta=t}if(j&&t-ta>=h)P.holding=false;var was=P.on;physStep(P,1/120);t+=1/120;if(j)tr.push({x:P.x,y:P.y});if(j&&P.on&&!was&&tr.length>4)return {tr:tr,land:P};if(P.y>GROUND+60)return {tr:tr,land:null}}return {tr:tr,land:null}}
+  function hop(x0,y0,tgt,lo,hi){var best=null;
+    for(var tx=lo;tx<=hi;tx+=1)for(var h=.02;h<=.25;h+=.01){var r=sim(x0,y0,tx,h);if(!r.land)continue;if(r.land.y!==tgt.y)continue;var lx=r.land.x;if(lx<tgt.x+4||lx>tgt.x+18)continue;var sc=Math.abs(lx-(tgt.x+10));if(!best||sc<best.sc)best={sc:sc,tx:tx,h:h,r:r}}
+    return best}
+  var plan=[], h0=hop(sx-140,GROUND,A,sx-80,sx-20), h1=hop(h0.r.land.x,A.y,B,A.x+10,A.x+30), h2=hop(h1.r.land.x,B.y,Cc,B.x+10,B.x+30);
+  plan.push(h0,h1,h2);
+  // último salto: pulo inteiro saindo do fim da laje mais alta
+  var tx3=Cc.x+28,h3=.25,r3;for(;h3>.02;h3-=.01){r3=sim(h2.r.land.x,Cc.y,tx3,h3);var top=Math.min.apply(null,r3.tr.map(function(p){return p.y}));if(top-20>=GROUND-128)break}plan.push({tx:tx3,h:h3,r:r3});
+  function at(tr,f){var p=tr[Math.floor((tr.length-1)*f)];return {x:p.x,y:p.y-20}}
+  function coin(p){L.coins.push({x:Math.round(p.x),y:Math.round(p.y),t:0,p:L.coins.length%2})}
+  [.45,.75].forEach(function(f){coin(at(h0.r.tr,f))});
+  [.3,.5,.7].forEach(function(f){coin(at(h1.r.tr,f))});
+  [.3,.5,.7].forEach(function(f){coin(at(h2.r.tr,f))});
+  // diamante no topo do último salto e duas moedas na descida
+  var ap=r3.tr.reduce(function(m,p){return p.y<m.y?p:m},r3.tr[0]);L.dias.push({x:Math.round(ap.x),y:Math.round(ap.y-20),t:0,hard:1,combo:1});
+  [.62,.74].forEach(function(f){coin(at(r3.tr,f))});
+  level=keep;COMBO={sx:sx,plan:plan.map(function(p){return {tx:p.tx,h:+p.h.toFixed(2)}})};
+  return L;
+}
 function groundAt(x){
   for(var i=0;i<level.gaps.length;i++){var g=level.gaps[i];if(x>g[0]+1&&x<g[1]-1)return null}
   return GROUND;
@@ -691,7 +722,7 @@ function fireworks(){
 
 /* ---------- reset ---------- */
 function resetGame(){
-  level=genLevel();
+  level=addCombo(genLevel());
   player=newPlayer();
   parts=[]; capQ=[]; capT=0; cap.classList.remove('on');
   fx={fade:0,flash:0,shake:0,transform:0,end:0,endStep:0,plane:null,lastLoc:'city',pow:0};
@@ -757,7 +788,7 @@ function update(dt){
   if(P_.y>GROUND+70){
     SFX.fall();STATS.fall++;(STATS.fallAt=STATS.fallAt||[]).push(YF(P_.x).toFixed(2)+(P_.adult?'A':'K'));lose(10);
     var gp=null;level.gaps.forEach(function(g2){if(P_.x>g2[0]-40&&P_.x<g2[1]+60)gp=g2});
-    P_.x=(gp?gp[0]:P_.lastSafe)-90; P_.y=GROUND; P_.vy=0; P_.on=true; P_.inv=1.4; fx.fade=.5;
+    P_.x=(gp?gp[0]:P_.lastSafe)-90;if(COMBO&&gp&&gp[0]===COMBO.sx+32)P_.x=COMBO.sx-170; P_.y=GROUND; P_.vy=0; P_.on=true; P_.inv=1.4; fx.fade=.5;
     say('','Opa! Volta um pouquinho.',1.6);
   }
   if(fx.fade>0)fx.fade-=dt;
@@ -1383,7 +1414,7 @@ state='title';
 buildBitmaps();
 sizeAll();
 try{document.fonts.load('8px "Press Start 2P"');document.fonts.load('16px "Pixelify Sans"')}catch(e){}
-level=genLevel();player=newPlayer();parts=[];fx={};cam=0;T=0;
+level=addCombo(genLevel());player=newPlayer();parts=[];fx={};cam=0;T=0;
 requestAnimationFrame(frame);
 if(FAST){BOT=true;setTimeout(headless,50)}
 else if(Q.get('auto')==='1')setTimeout(startGame,300);
