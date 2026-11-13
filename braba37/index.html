@@ -296,6 +296,8 @@ function buildBitmaps(){
   SPR.virus=bmp([".....s.....",".s...k...s.","..k.kkk.k..","...kvvvk...","..kvvdvvk..","skkvdvvvkks","..kvvvvdk..","...kvvvk...","..k.kkk.k..",".s...k...s.",".....s....."],{k:'#1b4a2a',v:'#7bd389',d:'#2f8a4b',s:'#ff5a7a'});
   SPR.heart=bmp([".kk...kk.","krrk.krrk","krwrkrrrk","krrrrrrrk",".krrrrrk.","..krrrk..","...krk...","....k...."],{k:'#5a0a1a',r:'#ff4d6d',w:'#fff'});
   SPR.key=bmp([".ooo........","oyyyo.......","oy.yoooooooo","oy.yyyyyyyyo","oyyyoooyoyoo",".ooo...o.o.."],{o:'#7a4a00',y:'#ffd23a'});
+  SPR.mush=bmp([".....kkkk.....","...kkrrrrkk...","..krrwwrrrrk..",".krrwwwwrrwwk.",".krrwwwwrrwwk.","krrrwwrrrrrrrk","krrrrrrrwwrrrk","krwwrrrwwwwrrk","krwwrrrrwwrrrk",".kkkkkkkkkkkk.","...kssssssk...","...kssssssk...","...kssssssk...","....kkkkkk...."],{k:'#3a0a0a',r:'#e8322b',w:'#fff4e8',s:'#f2dcb0'});
+  SPR.pombo=bmp(["....kk......","...kggk.....","..kgwgk.....","kkkggggkkk..",".kggggggggk.","..kgddggggk.","...kddddgk..","....kkkkk...","....o..o...."],{k:'#1a1a2a',g:'#8a8aa8',w:'#fff',d:'#5a5a78',o:'#ff9a3a'});
   SPR.spray=bmp(["...kk...","..kwwk..","..kkkk..",".kppppk.",".kpwppk.",".kpwppk.",".kppppk.",".kcccck.",".kccsck.",".kcccck.",".kppppk.",".kppppk.","..kkkk.."],{k:'#1a0a20',w:'#e8e8f0',p:'#ff3ea5',c:'#3ad7ff',s:'#ffffff'});
   SPR.note=bmp(["...kkk","...kkk","...k..","...k..","...k..",".kkk..","kkkk..",".kk..."],{k:'#fff'});
   // bloco da 316 norte (ícone)
@@ -381,8 +383,8 @@ var cap=document.getElementById('cap');
 function img(s){var i=new Image();i.src=s;return i}
 var atlasImg=img('atlas.png'), DIA=img('diamante.png'), PLANE=img('aviao.png'), CIG=img('cigarro.png');
 var TIMG={tacawc:img('taca-copa.png'),mundial:img('mundial.png'),oab:img('oab.png'),brb:img('brb.png'),tulipa:img('tulipa.png'),barsa:img('barsa.png'),buda:img('buda.png'),
-  en:img('en.png'),es:img('es.png'),fr:img('fr.png'),faixa:img('faixa.png'),ave:img('ave.png'),bola:img('bola.png'),mascara:img('mascara.png'),plane:PLANE};
-var TH={tacawc:34,mundial:34,oab:16,brb:20,tulipa:32,barsa:30,buda:30,en:20,es:20,fr:20,faixa:18,ave:24,bola:22,mascara:30,plane:20};
+  en:img('en.png'),placa316:img('placa316.png'),direito:img('direito.png'),orelha:img('orelha.png'),es:img('es.png'),fr:img('fr.png'),faixa:img('faixa.png'),ave:img('ave.png'),bola:img('bola.png'),mascara:img('mascara.png'),plane:PLANE};
+var TH={placa316:30,direito:20,orelha:18,tacawc:34,mundial:34,oab:16,brb:20,tulipa:32,barsa:30,buda:30,en:20,es:20,fr:20,faixa:18,ave:24,bola:22,mascara:30,plane:20};
 var BEBE={menina:img('bebe-menina.png'),menino:img('bebe-menino.png')};
 
 /* ---------- mundo ---------- */
@@ -398,12 +400,13 @@ var MEM=[
   {yf:1990.55, cap:'Dica: segure o pulo pra alcançar os diamantes. Cada um vale 10!', yr:'💎'},
   {yf:1994.32, baby:'menina', cap:'Nasceu a Pati, minha irmã!', yr:'1994'},
   {yf:1994.65, item:'tacawc', cap:'Tetra! O Brasil é campeão do mundo.', yr:'1994', flags:true},
-  {yf:1996.5, item:'bloco', cap:'Mudamos para a 316 Norte, bloco I.', yr:'1996'},
+  {yf:1996.5, item:'placa316', cap:'Mudamos para a 16!', yr:'1996'},
   {yf:2000.12, item:'mundial', cap:'Corinthians campeão mundial!', yr:'2000', fw:true, timao:true},
   {yf:2002.5, item:'tacawc', cap:'Penta! Brasil campeão de novo.', yr:'2002', flags:true},
   {yf:2005.5, item:'en', lang:1, cap:'Me formei no inglês. Hello!', yr:'2005'},
-  {yf:2006.5, item:'plane', cap:'Conheci a Disney!', yr:'2006', fw:true},
-  {yf:2007.89, spray:true, cap:'18 anos! Fase adulta desbloqueada.', yr:'18 ANOS'},
+  {yf:2006.5, item:'orelha', cap:'Conheci a Disney!', yr:'2006', fw:true},
+  {yf:2007.89, spray:true, cap:'Cogumelo! Fase adulta desbloqueada.', yr:'18 ANOS'},
+  {yf:2011.5, item:'direito', cap:'Me formei em Direito!', yr:'2011'},
   {yf:2012.25, item:'oab', cap:'Passei na OAB!', yr:'2012'},
   {yf:2012.55, item:'brb', cap:'E passei no BRB!', yr:'2012'},
   {yf:2012.92, item:'mundial', cap:'Corinthians campeão mundial de novo!', yr:'2012', fw:true, timao:true},
@@ -469,34 +472,49 @@ function genLevel(){
   var x=X0+340;
   while(x<END_X-300){
     var yf=YF(x), adult=yf>=2007.89, th=themeAt(yf), pand=yf>=PAND[0]&&yf<PAND[1], trip=th!=='city';
-    var step=adult? 140+rnd()*95 : 155+rnd()*110;
-    if(isRes(x-60,x+170)){x+=40;continue}
-    var r=rnd();
+    var step=adult? 112+rnd()*80 : 132+rnd()*90;
+    if(isRes(x-60,x+200)){x+=40;continue}
+    var r=rnd(), ok=function(){return trip?'rock':'cone'};
     if(pand){
       var vy=GROUND-8;
       L.obs.push({k:'virus',x:x,y:vy,by:vy,ph:rnd()*6,w:7,h:7});
-      if(rnd()<.5)arc(x,5);
-    } else if(r<(adult?.27:.32)){
-      var tall=adult&&!trip&&rnd()<.4;
-      L.obs.push({k:trip?'rock':(tall?'lixo':'cone'),x:x,y:GROUND,w:11,h:tall?20:(trip?10:14),tall:tall});
-      if(rnd()<.42)L.dias.push({x:x,y:GROUND-96-rnd()*8,t:0,hard:1});else arc(x,5);
-    } else if(r<(adult?.47:.52)){
+      if(rnd()<.6)arc(x,5);
+    } else if(r<.2){ // obstáculo simples
+      var tall=adult&&!trip&&rnd()<.45;
+      L.obs.push({k:tall?'lixo':ok(),x:x,y:GROUND,w:11,h:tall?20:(trip?10:14),tall:tall});
+      if(rnd()<.5)L.dias.push({x:x,y:GROUND-96-rnd()*8,t:0,hard:1});else arc(x,5);
+    } else if(r<.32&&adult){ // dois obstáculos colados: um pulo longo
+      L.obs.push({k:ok(),x:x,y:GROUND,w:11,h:trip?10:14});L.obs.push({k:ok(),x:x+30,y:GROUND,w:11,h:trip?10:14});
+      arc(x+15,6,58+rnd()*12);step+=40;
+    } else if(r<.48){ // buraco
       var gw=(adult? (rnd()<.5?48:64) : (rnd()<.6?32:48));
       var gx=Math.ceil(x/16)*16;
       L.gaps.push([gx,gx+gw]);
-      if(rnd()<.35){
+      if(rnd()<.3){
         L.plats.push({x:gx-16,y:GROUND-46,n:Math.round(gw/16)+2});
         for(var c=0;c<Math.round(gw/16)+2;c++)coin(gx-8+c*16,GROUND-58);
-      } else if(rnd()<.45)L.dias.push({x:gx+gw/2,y:GROUND-98-rnd()*8,t:0,hard:1}); else arc(gx+gw/2,5);
+      } else if(rnd()<.5)L.dias.push({x:gx+gw/2,y:GROUND-98-rnd()*8,t:0,hard:1}); else arc(gx+gw/2,5);
+      // às vezes um cone logo depois do buraco
+      if(adult&&!L.plats.some(function(p){return p.x===gx-16})&&rnd()<.35){L.obs.push({k:ok(),x:gx+gw+46,y:GROUND,w:11,h:trip?10:14});arc(gx+gw+46,5);step+=50}
       step+=gw;
-    } else if(adult&&!trip&&r<.72){
-      L.obs.push({k:'pneu',x:x+90,y:GROUND,w:11,h:11,vx:-38,rot:0});
+    } else if(adult&&!trip&&r<.6){ // pneu rolando
+      L.obs.push({k:'pneu',x:x+90,y:GROUND,w:11,h:11,vx:-42,rot:0});
       for(var c2=0;c2<4;c2++)coin(x-30+c2*14,GROUND-10);
+    } else if(adult&&!trip&&r<.7){ // pombo voando baixo
+      var py=GROUND-12;L.obs.push({k:'pombo',x:x+70,y:py,by:py,ph:rnd()*6,w:10,h:8,vx:-24});
+      arc(x+40,5,52);step+=30;
+    } else if(adult&&r<.8){ // escadinha de lajes: uma baixa e uma alta
+      var px2=Math.ceil(x/16)*16;
+      L.plats.push({x:px2,y:GROUND-46,n:3});L.plats.push({x:px2+64,y:GROUND-80,n:4});
+      for(var k1=0;k1<3;k1++){coin(px2+8+k1*16,GROUND-58);if(k1)coin(px2+88+k1*16,GROUND-92)}
+      L.obs.push({k:ok(),x:px2+60,y:GROUND,w:11,h:trip?10:14});
+      step+=186;
     } else {
       var n=3+Math.floor(rnd()*3), px=Math.ceil(x/16)*16;
       L.plats.push({x:px,y:GROUND-48,n:n});
       for(var c3=0;c3<n;c3++)coin(px+8+c3*16,GROUND-60);
-      if(rnd()<.5){L.obs.push({k:trip?'rock':'cone',x:px+n*8,y:GROUND,w:11,h:trip?10:14})}
+      if(rnd()<.6){L.obs.push({k:ok(),x:px+n*8,y:GROUND,w:11,h:trip?10:14})}
+      if(rnd()<.75){L.dias.push({x:px+n*16+34,y:GROUND-48-(adult?88:76),t:0,hard:1});step+=40}
       step+=n*16;
     }
     x+=step;
@@ -506,23 +524,23 @@ function genLevel(){
   function busyNear(px,rad){var b=false;
     L.coins.forEach(function(c){if(Math.abs(c.x-px)<rad)b=true});
     L.dias.forEach(function(d){if(Math.abs(d.x-px)<rad+30)b=true});
-    L.obs.forEach(function(o){if(Math.abs(o.x-px)<rad+(o.k==='pneu'?120:10))b=true});
-    L.plats.forEach(function(p){if(px>p.x-rad&&px<p.x+p.n*16+rad)b=true});
+    L.obs.forEach(function(o){if(Math.abs(o.x-px)<rad+(o.vx?120:10))b=true});
+    L.plats.forEach(function(p){if(px>p.x-rad&&px<p.x+p.n*16+rad+(p.y<GROUND-60?50:0))b=true});
     L.gaps.forEach(function(g){if(px>g[0]-rad&&px<g[1]+rad)b=true});
     return b}
   // diamantes no alto, sozinhos: nada embaixo, pra não ter que escolher entre ele e as moedas
-  for(var dx_=X0+320;dx_<END_X-300;dx_+=150+rnd()*90){
-    if(!isRes(dx_-50,dx_+50)&&!busyNear(dx_,52))L.dias.push({x:dx_,y:GROUND-94-rnd()*10,t:0});
+  for(var dx_=X0+320;dx_<END_X-300;dx_+=85+rnd()*55){
+    if(!isRes(dx_-50,dx_+50)&&!busyNear(dx_,46))L.dias.push({x:dx_,y:GROUND-94-rnd()*10,t:0});
   }
   var fx_=X0+300;
   while(fx_<END_X-300){
     if(!isRes(fx_-40,fx_+70)){
       var k=rnd();
-      if(k<.6){ if(!busyNear(fx_+12,58))for(var i=0;i<3;i++)coin(fx_+i*12,GROUND-10)}
+      if(k<.6){ if(!busyNear(fx_+12,44))for(var i=0;i<4;i++)coin(fx_+i*12,GROUND-10)}
       else if(k<.8){ if(!busyNear(fx_+18,64)){var hy=GROUND-46-rnd()*10;for(var i2=0;i2<3;i2++)coin(fx_+i2*12,hy)}}
       else { if(!busyNear(fx_+18,64))for(var i3=0;i3<4;i3++)coin(fx_+i3*12,GROUND-14-i3*14)}
     }
-    fx_+=50+rnd()*26;
+    fx_+=34+rnd()*18;
   }
   L.coins.forEach(function(c,i){c.p=i%2});
   return L;
@@ -540,7 +558,7 @@ function newPlayer(){
 }
 function pw(P){return P.adult?12:11}
 function ph(P){return P.adult?40:30}
-function speedOf(P){var s=P.adult?122:108;if(P.star>0)s=158;if(P.tumble>0)s=35;return s}
+function speedOf(P){var s=P.adult?126:110;if(P.star>0)s=158;if(P.tumble>0)s=35;return s}
 // um passo da física, igual para o jogo e para o robô de teste
 function physStep(P,dt){
   var sp=speedOf(P); P.x+=sp*dt;
@@ -562,7 +580,7 @@ function physStep(P,dt){
   return was;
 }
 function near(P,ox,oy,rx,ry){return Math.abs(ox-P.x)<pw(P)/2+rx&&Math.abs(oy-(P.y-ph(P)/2))<ph(P)/2+ry}
-function obsY(o,t){return o.k==='virus'?o.by+Math.sin(t*3+o.ph)*2.5:o.y-o.h/2}
+function obsY(o,t){return o.k==='virus'?o.by+Math.sin(t*3+o.ph)*2.5:(o.k==='pombo'?o.by+Math.sin(t*4+o.ph)*3:o.y-o.h/2)}
 function hitsObs(P,o,ox,oy){return Math.abs(ox-P.x)<(o.w/2+pw(P)/2-2)&&Math.abs(oy-(P.y-ph(P)/2))<(o.h/2+ph(P)/2-3)}
 
 /* ---------- entrada ---------- */
@@ -702,7 +720,8 @@ function update(dt){
   if(fx.pow>0)fx.pow-=dt;
   if(fx.plane){fx.plane.t+=dt/3.2;if(fx.plane.t>1)fx.plane=null}
   level.obs.forEach(function(o){
-    if(o.k==='virus'){o.y=obsY(o,T)}
+    if(o.k==='virus'||o.k==='pombo'){o.y=obsY(o,T)}
+    if(o.k==='pombo'&&!o.dead&&Math.abs(o.x-player.x)<W)o.x+=o.vx*dt;
     if(o.k==='pneu'&&!o.dead&&Math.abs(o.x-player.x)<W){o.x+=o.vx*dt;o.rot+=dt*8;var gy=groundAt(o.x);if(gy===null||o.fall){o.fall=true;o.vy=(o.vy||0)+600*dt;o.y+=o.vy*dt;if(o.y>GROUND+80)o.dead=true}}
   });
   var C=level.cig;
@@ -710,7 +729,7 @@ function update(dt){
 
   if(state==='transform'){
     fx.transform-=dt;
-    if(fx.transform<=0){state='play';player.adult=true;say('18 ANOS','Spray na mão! Fase adulta desbloqueada.',3)}
+    if(fx.transform<=0){state='play';player.adult=true;say('18 ANOS','Cogumelo! Fase adulta desbloqueada.',3)}
     return;
   }
   if(state==='cig'){cigTick(dt);return}
@@ -820,7 +839,7 @@ var bot={tick:0,hold:0};
 function botThink(dt){
   var P_=player;
   if(bot.hold>0){bot.hold-=dt;if(bot.hold<=0)P_.holding=false}
-  if(!P_.on){bot.tick=0;return}
+  if(!P_.on&&!(P_.coyote>0)){bot.tick=0;return}
   if((bot.tick++)%4)return;
   var best=planJump();
   if(best&&best.d===0){P_.pressT=0.12;P_.holding=true;bot.hold=best.h}
@@ -839,36 +858,37 @@ function simCand(P0,c,ctx_,got0,horizon,stopOnLand){
     for(i=0;i<o.cs.length;i++)if(!got['c'+o.cs[i].i]&&near(P,o.cs[i].x,o.cs[i].y,5+mag,6+mag)){got['c'+o.cs[i].i]=1;sc+=1}
     for(i=0;i<o.ds.length;i++)if(!got['d'+o.ds[i].i]&&near(P,o.ds[i].x,o.ds[i].y,7,8)){got['d'+o.ds[i].i]=1;sc+=10}
     for(i=0;i<o.its.length;i++)if(!got['i'+o.its[i].i]&&near(P,o.its[i].x,o.its[i].y,14,14)){got['i'+o.its[i].i]=1;sc+=20}
-    if(P.star<=0&&player.inv<=o.t0+t)for(i=0;i<o.obs.length;i++){var ob=o.obs[i],ox=ob.k==='pneu'?ob.x+ob.vx*(o.t0+t):ob.x;if(hitsObs(P,ob,ox,obsY(ob,T+o.t0+t))){return {sc:sc-1000,P:P,got:got,t:t,dead:1}}}
+    if(P.star<=0&&player.inv<=o.t0+t)for(i=0;i<o.obs.length;i++){var ob=o.obs[i],ox=ob.vx?ob.x+ob.vx*(o.t0+t):ob.x;if(hitsObs(P,ob,ox,obsY(ob,T+o.t0+t))){return {sc:sc-1000,P:P,got:got,t:t,dead:1}}}
     if(P.y>GROUND+30)return {sc:sc-2000,P:P,got:got,t:t,dead:1};
     if(jumped&&P.on&&!was){landed=true;if(stopOnLand)break}
   }
   return {sc:sc,P:P,got:got,t:t,landed:landed};
 }
 function planJump(){
-  var P0=player;
-  function idx(arr,flag){var r=[];arr.forEach(function(c,i){if(!c[flag]&&c.x>P0.x-20&&c.x<P0.x+330)r.push({x:c.x,y:c.y,i:i})});return r}
-  var C={obs:level.obs.filter(function(o){return !o.dead&&o.x>P0.x-30&&o.x<P0.x+360}),cs:idx(level.coins,'t'),ds:idx(level.dias,'t'),its:idx(level.items,'taken'),t0:0};
-  var cands=[{d:9,h:0}];
-  for(var di=0;di<=16;di++)[0.01,0.05,0.09,0.13,0.17,0.21,0.25].forEach(function(h){cands.push({d:di*4/120,h:h})});
-  var first=cands.map(function(c){var r=simCand(P0,c,C,{},c.d<9?1.6:1.6,c.d<9);r.c=c;return r});
-  // segundo pulo: para os melhores primeiros pulos, tenta mais um pulo depois de aterrissar
-  var ord=first.slice().sort(function(a,b){return b.sc-a.sc});
-  var best=null;
-  ord.slice(0,10).forEach(function(r){
+  var P0=player, HOR=2.9;
+  function idx(arr,flag){var r=[];arr.forEach(function(c,i){if(!c[flag]&&c.x>P0.x-20&&c.x<P0.x+400)r.push({x:c.x,y:c.y,i:i})});return r}
+  var C={obs:level.obs.filter(function(o){return !o.dead&&o.x>P0.x-30&&o.x<P0.x+440}),cs:idx(level.coins,'t'),ds:idx(level.dias,'t'),its:idx(level.items,'taken'),t0:0};
+  var full=[{d:9,h:0}];for(var di=0;di<=16;di++)[0.01,0.05,0.09,0.13,0.17,0.21,0.25].forEach(function(h){full.push({d:di*4/120,h:h})});
+  var coarse=[{d:9,h:0}];for(var dj=0;dj<=14;dj++)[0.01,0.09,0.17,0.25].forEach(function(h){coarse.push({d:dj*4/120,h:h})});
+  function best(P,got,t0,depth){ // melhor pontuação a partir daqui, até 3 pulos
+    var rem=HOR-t0;if(rem<.15)return 0;
+    var Cx={obs:C.obs,cs:C.cs,ds:C.ds,its:C.its,t0:t0};
+    var rs=(depth?coarse:full).map(function(c){var r=simCand(P,c,Cx,got,c.d<9?rem:rem,c.d<9&&depth<2);r.c=c;return r});
+    if(depth===0)return rs;
+    var top=-1e9;
+    rs.sort(function(a,b){return b.sc-a.sc}).slice(0,depth===1?4:60).forEach(function(r){
+      var tot=r.sc;if(!r.dead&&r.c.d<9&&r.landed&&depth<2)tot+=best(r.P,r.got,t0+r.t,depth+1);
+      if(tot>top)top=tot});
+    return top;
+  }
+  var first=best(P0,{},0,0), bestR=null;
+  first.sort(function(a,b){return b.sc-a.sc}).slice(0,10).forEach(function(r){
     var tot=r.sc;
-    if(!r.dead&&r.c.d<9&&r.landed){
-      var C2={obs:C.obs,cs:C.cs,ds:C.ds,its:C.its,t0:r.t},b2=-1e9;
-      var c2s=[{d:9,h:0}];for(var di=0;di<=14;di++)[0.01,0.09,0.17,0.25].forEach(function(h){c2s.push({d:di*4/120,h:h})});
-      c2s.forEach(function(c2){var q=simCand(r.P,c2,C2,r.got,1.3,false);if(q.sc>b2)b2=q.sc});
-      tot+=b2;
-    } else if(!r.dead&&r.c.d===9){
-      tot+=0;
-    }
+    if(!r.dead&&r.c.d<9&&r.landed)tot+=best(r.P,r.got,r.t,1);
     tot-=r.c.d<9?0.01*r.c.h+0.001*r.c.d:0;
-    if(!best||tot>best.sc+1e-9)best={sc:tot,d:r.c.d,h:r.c.h};
+    if(!bestR||tot>bestR.sc+1e-9)bestR={sc:tot,d:r.c.d,h:r.c.h};
   });
-  return best;
+  return bestR;
 }
 
 function lose(n){var p=player,l=Math.min(n,p.coins);p.coins-=l;if(l>0&&!FAST){parts.push({x:p.x,y:p.y-ph(p)-6,vx:0,vy:-40,life:1,k:'plus',txt:'-'+l,col:'#ff5a5a',g:0});for(var i=0;i<Math.min(l,6);i++)parts.push({x:p.x,y:p.y-ph(p)/2,vx:(Math.random()-.5)*120,vy:-120-Math.random()*60,life:.8,k:'coinp',g:500})}}
@@ -961,7 +981,7 @@ function draw(){
   // bloco 18 + spray
   var M=level.spray,mbx=M.x-cam;
   if(mbx>-30&&mbx<W+30)block18(mbx-8,GROUND-76,M.state>0);
-  if(M.state===1||M.state===2){ctx.drawImage(SPR.spray,Math.round(M.mx-cam-4),Math.round(M.my-13));if(Math.random()<.4)parts.push({x:M.mx,y:M.my-14,vx:-20+Math.random()*10,vy:-20,life:.5,k:'spark',c:NEON[Math.random()*3|0],g:0})}
+  if(M.state===1||M.state===2){ctx.drawImage(SPR.mush,Math.round(M.mx-cam-7),Math.round(M.my-14))}
   // diamantes
   level.dias.forEach(function(d){if(d.t)return;var sx=d.x-cam;if(sx<-20||sx>W+20)return;var b=Math.sin(T*4+d.x)*1.5;
     glow(sx,d.y+b,18,'150,240,255',.65+.25*Math.sin(T*7+d.x));
@@ -973,6 +993,7 @@ function draw(){
     else if(o.k==='lixo')ctx.drawImage(SPR.lixo,Math.round(sx-6),GROUND-20,12,20);
     else if(o.k==='rock')spr('rock',sx-6,GROUND-7,1,1.45);
     else if(o.k==='pneu'){ctx.save();ctx.translate(Math.round(sx),Math.round(o.y-6));ctx.rotate(Math.round(o.rot/(Math.PI/4))*(Math.PI/4));ctx.drawImage(SPR.pneu,-6,-6);ctx.restore()}
+    else if(o.k==='pombo'){var fl=Math.sin(T*14+o.ph)>0;ctx.save();ctx.translate(Math.round(sx),Math.round(o.y));ctx.drawImage(SPR.pombo,-6,-5);ctx.fillStyle='#6a6a88';if(fl)ctx.fillRect(-2,-8,6,3);else ctx.fillRect(-2,-1,6,3);ctx.restore()}
     else if(o.k==='virus'){ctx.save();ctx.translate(Math.round(sx),Math.round(o.y));ctx.rotate(Math.sin(T*2+o.ph)*.3);ctx.drawImage(SPR.virus,-5.5,-5.5);ctx.restore()}
   });
   drawCig();
@@ -1012,9 +1033,6 @@ function cityMid(yf){
     else if(kind===2)catedral(x+50,GROUND);
     else {var im=SPR.block[(i%4+4)%4];ctx.drawImage(im,Math.round(x),GROUND-im.height-4)}
   }
-  // 316 Norte, bloco I
-  var m316=X(1996.5);var bx=(m316-cam)*0.55+W*0.25;
-  if(bx>-140&&bx<W+20){var im2=SPR.block[1];ctx.drawImage(im2,Math.round(bx),GROUND-im2.height-6);ctx.fillStyle='#0c0626';ctx.fillRect(Math.round(bx+8),GROUND-im2.height-18,58,10);ctx.fillStyle='#3ad7ff';ctx.font='5px "Press Start 2P"';ctx.fillText('SQN 316 · I',Math.round(bx+10),GROUND-im2.height-11)}
 }
 function cityNear(){
   var p=0.55,seg=96,i0=Math.floor(cam*p/seg)-1;
@@ -1356,7 +1374,7 @@ function headless(){
     level.coins.forEach(function(c){if(!c.t)miss.push('moeda '+YF(c.x).toFixed(2)+' y'+(GROUND-c.y))});
     level.dias.forEach(function(c){if(!c.t)miss.push('diamante '+YF(c.x).toFixed(2)+' y'+(GROUND-c.y))});
     level.items.forEach(function(c){if(!c.taken)miss.push('memoria '+c.k)});
-    window.__R={score:score(),max:maxScore(),coins:player.coins+'/'+level.coins.length,dias:player.dias+'/'+level.dias.length,mem:player.mem+'/'+ITEM_TOTAL,langs:player.langs,hits:STATS.hit,falls:STATS.fall,fallAt:STATS.fallAt,secs:(steps/120).toFixed(1),ms:Date.now()-t0,miss:miss};
+    window.__R={score:score(),max:maxScore(),coins:player.coins+'/'+level.coins.length,dias:player.dias+'/'+level.dias.length,mem:player.mem+'/'+ITEM_TOTAL,langs:player.langs,hits:STATS.hit,falls:STATS.fall,fallAt:(STATS.fallAt||[]).slice(0,12),secs:(steps/120).toFixed(1),ms:Date.now()-t0,miss:miss};
     console.log('RESULT '+JSON.stringify(window.__R));
   })();
 }
