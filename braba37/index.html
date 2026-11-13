@@ -1335,8 +1335,10 @@ var scoreEl=document.getElementById('score'),scTop=document.getElementById('scTo
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return'&#'+c.charCodeAt(0)+';'})}
 var rollT=null;
 // mostra todo mundo, rolando de baixo pra cima, e para no top 5
+// cada nome aparece uma vez, com a melhor pontuação (a lista já vem em ordem)
+function uniq(list){var seen={};return (list||[]).filter(function(r){var k=String(r.nome).trim().toLowerCase();if(seen[k])return false;seen[k]=1;return true})}
 function paintTop(list,meName){
-  clearTimeout(rollT);
+  clearTimeout(rollT);list=uniq(list);
   if(!list||!list.length){scTop.style.transition='none';scTop.style.transform='none';scTop.innerHTML='<li class="vazio">Ninguém ainda. Seja a primeira pessoa!</li>';scTitle.textContent='TOP 5';return}
   var md=['🥇','🥈','🥉'];
   scTop.innerHTML=list.map(function(r,i){var eu=meName&&String(r.nome).toLowerCase()===meName.toLowerCase();return '<li class="p'+Math.min(i+1,5)+(eu?' eu':'')+'"><span>'+(i<3?md[i]:(i+1)+'º')+' '+esc(r.nome)+'</span><span>'+r.pontos+'</span></li>'}).join('');
@@ -1367,7 +1369,7 @@ scSave.addEventListener('click',function(e){
    .then(function(r){return r.json()}).then(function(d){
      if(!d.ok||d.aba!==ABA)throw 0;
      paintTop(d.todos||d.top,nome);document.getElementById('scForm').style.display='none';
-     scMe.innerHTML='Você ficou em <b>'+d.pos+'º</b> de '+d.total+'.';
+     var u=uniq(d.todos||d.top),pos=1;u.forEach(function(r,i){if(String(r.nome).trim().toLowerCase()===nome.toLowerCase())pos=i+1});scMe.innerHTML='Você ficou em <b>'+pos+'º</b> de '+u.length+'.';
    }).catch(function(){scSave.disabled=false;scSave.textContent='TENTAR DE NOVO';scMe.textContent='Não deu para salvar agora.'});
 });
 scName.addEventListener('keydown',function(e){if(e.key==='Enter')scSave.click()});
