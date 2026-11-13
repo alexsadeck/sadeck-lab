@@ -482,7 +482,7 @@ function genLevel(){
     } else if(r<.2){ // obstáculo simples
       var tall=adult&&!trip&&rnd()<.45;
       L.obs.push({k:tall?'lixo':ok(),x:x,y:GROUND,w:11,h:tall?20:(trip?10:14),tall:tall});
-      if(rnd()<.5)L.dias.push({x:x,y:GROUND-96-rnd()*8,t:0,hard:1});else arc(x,5);
+      arc(x,5);if(rnd()<.5)L.dias.push({x:x,y:GROUND-100-rnd()*8,t:0,hard:1});
     } else if(r<.32&&adult){ // dois obstáculos colados: um pulo longo
       L.obs.push({k:ok(),x:x,y:GROUND,w:11,h:trip?10:14});L.obs.push({k:ok(),x:x+30,y:GROUND,w:11,h:trip?10:14});
       arc(x+15,6,58+rnd()*12);step+=40;
@@ -493,7 +493,7 @@ function genLevel(){
       if(rnd()<.3){
         L.plats.push({x:gx-16,y:GROUND-46,n:Math.round(gw/16)+2});
         for(var c=0;c<Math.round(gw/16)+2;c++)coin(gx-8+c*16,GROUND-58);
-      } else if(rnd()<.5)L.dias.push({x:gx+gw/2,y:GROUND-98-rnd()*8,t:0,hard:1}); else arc(gx+gw/2,5);
+      } else {arc(gx+gw/2,5);if(rnd()<.5)L.dias.push({x:gx+gw/2,y:GROUND-102-rnd()*8,t:0,hard:1})}
       // às vezes um cone logo depois do buraco
       if(adult&&!L.plats.some(function(p){return p.x===gx-16})&&rnd()<.35){L.obs.push({k:ok(),x:gx+gw+46,y:GROUND,w:11,h:trip?10:14});arc(gx+gw+46,5);step+=50}
       step+=gw;
@@ -536,12 +536,18 @@ function genLevel(){
   while(fx_<END_X-300){
     if(!isRes(fx_-40,fx_+70)){
       var k=rnd();
-      if(k<.6){ if(!busyNear(fx_+12,44))for(var i=0;i<4;i++)coin(fx_+i*12,GROUND-10)}
+      if(k<.6){ if(!busyNear(fx_+12,44)){for(var i=0;i<4;i++)coin(fx_+i*12,GROUND-10);if(rnd()<.4)L.dias.push({x:fx_+18,y:GROUND-98-rnd()*8,t:0,choice:1})}}
       else if(k<.8){ if(!busyNear(fx_+18,64)){var hy=GROUND-46-rnd()*10;for(var i2=0;i2<3;i2++)coin(fx_+i2*12,hy)}}
       else { if(!busyNear(fx_+18,64))for(var i3=0;i3<4;i3++)coin(fx_+i3*12,GROUND-14-i3*14)}
     }
     fx_+=34+rnd()*18;
   }
+  // pontos de escolha: diamante bem acima de filas de moedas no chão (ou pula pro diamante, ou pega as moedas)
+  var ground=L.coins.filter(function(c){return c.y>=GROUND-12}).sort(function(a,b){return a.x-b.x}),lastX=-1e9;
+  ground.forEach(function(c){if(c.x-lastX<60||isRes(c.x-30,c.x+30))return;var near_=L.dias.some(function(d){return Math.abs(d.x-c.x)<70});
+    if(!near_&&rnd()<.5){L.dias.push({x:c.x+18,y:GROUND-100-rnd()*8,t:0,choice:1});lastX=c.x}});
+  L.plats.forEach(function(p){if(p.y<GROUND-50)return;var cx=p.x+p.n*8;if(isRes(cx-30,cx+30)||L.dias.some(function(d){return Math.abs(d.x-cx)<60}))return;
+    if(rnd()<.6)L.dias.push({x:cx,y:p.y-84,t:0,choice:1})});
   L.coins.forEach(function(c,i){c.p=i%2});
   return L;
 }
@@ -1342,7 +1348,7 @@ function paintTop(list,meName){
 function showScore(){
   var p=player;
   document.getElementById('scTotal').textContent=score();
-  document.getElementById('scBrk').innerHTML='Moedas: '+p.coins+' × 1<br>Diamantes: '+p.dias+' × 10<br>Memórias: '+p.mem+' × 20'+(p.pen?'<br>Tropeços e quedas: −'+p.pen:'')+'<br><small style="opacity:.75">Máximo possível: '+maxScore()+'</small>';
+  document.getElementById('scBrk').innerHTML='Moedas: '+p.coins+' × 1<br>Diamantes: '+p.dias+' × 10<br>Memórias: '+p.mem+' × 20'+(p.pen?'<br>Tropeços e quedas: −'+p.pen:'')+'';
   try{scName.value=localStorage.getItem('braba37-nome')||''}catch(e){}
   scMe.textContent='';document.getElementById('scForm').style.display='block';scSave.disabled=false;scSave.textContent='SALVAR NO RANKING';
   scoreEl.style.display='flex';
