@@ -65,6 +65,18 @@
  .topbar .inner{gap:10px}
  .convite-acoes .btn{width:100%}
 }
+
+/* Miniaturas responsivas: a altura acompanha a largura disponível no celular. */
+@media(max-width:700px){
+ .flutuante{display:none}
+ .foto-btn img{height:auto;object-fit:cover}
+ .hero-foto img{height:auto;aspect-ratio:16 / 9;object-position:50% 50%}
+ .capitulo .foto-principal img{height:auto;aspect-ratio:16 / 9}
+ .capitulo .foto-faixa{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+ .capitulo .foto-faixa img{height:auto;aspect-ratio:8 / 5}
+ .respiro>.foto-btn img{height:auto;aspect-ratio:16 / 9}
+ .capitulo .foto-btn,.hero-foto,.respiro>.foto-btn{min-width:0}
+}
 </style></head><body><a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="topbar"><div class="wrap inner"><a class="brand" href="#topo" aria-label="Vizinho do C, início"><img src="../sqs207/azulejo.svg" alt="" width="42" height="42"><span><strong>vizinho do c</strong><small>SQS 207 · BLOCO C</small></span></a><nav class="topnav" aria-label="Navegação principal"><a href="#casa">O apartamento</a><a href="#quadra" class="nav-opcional">A vida por aqui</a><a href="#detalhes" class="nav-opcional">Os detalhes</a><button class="btn light compartilhar-topo js-compartilhar" type="button" aria-label="Compartilhar"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg><span class="share-label">Compartilhar</span></button><a class="btn js-contato" data-origem="menu" href="#visita" target="_blank" rel="noopener">Marcar visita</a></nav></div></header>
 <main id="conteudo"><section class="hero wrap" id="topo" data-secao="chegada"><div class="hero-grid"><div class="hero-copy"><p class="kicker">Um convite da SQS 207, bloco C</p><h1>Que bom ter<br>você <em>por aqui.</em></h1><p class="intro">Alguém que mora aqui pensou em você. E em como seria bom ter você por perto.<br><br>Tem um apartamento à venda no bloco C da 207. Pode entrar e conhecer.</p><div class="hero-actions"><a class="btn" href="#casa">Pode entrar</a><button class="text-link" type="button" data-album="sala">Ver as fotos</button></div></div><figure class="hero-visual"><button class="foto-btn hero-foto" type="button" data-foto="01" aria-label="Ampliar: Sala de estar e jantar do apartamento, com janelas para a área verde"><img src="../sqs207/fotos/01-m.jpg" srcset="../sqs207/fotos/01-m.jpg 900w, ../sqs207/fotos/01.jpg 2000w" sizes="(max-width:700px) 100vw, 60vw" width="2000" height="1333" alt="Sala de estar e jantar do apartamento, com janelas para a área verde" fetchpriority="high"><span class="zoom-label">Ver de perto</span></button><img class="ceramica" src="../sqs207/azulejo.svg" width="94" height="94" alt="Azulejo azul e branco da cozinha"><figcaption>Sala de estar e jantar. Imagina a conversa por aqui.</figcaption></figure></div></section>
