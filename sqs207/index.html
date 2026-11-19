@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SQS 207 Sul, bloco C, 103 | Apartamento à venda direto com o proprietário</title>
+<meta name="description" content="3 quartos, sala ampla, vista livre e ventilação cruzada na SQS 207 Sul. 163 m² úteis, R$ 2.470.000. Venda direto com o proprietário.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="SQS 207 Sul: 3 quartos, sala ampla, vista livre e ventilação cruzada">
+<meta property="og:description" content="Apartamento 103, bloco C. 163 m² úteis. Venda direto com o proprietário.">
+<meta property="og:image" content="https://sadeck.art/sqs207/og.jpg">
+<meta property="og:url" content="https://sadeck.art/sqs207/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#E4E5E0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23fff'/%3E%3Cpath d='M0 0h40L0 40z' fill='%232350A4'/%3E%3Ccircle cx='40' cy='40' r='14' fill='%232350A4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="fotos/01.jpg" imagesrcset="fotos/01-m.jpg 900w, fotos/01.jpg 2000w" imagesizes="100vw">
+<style>
+  :root {
+    --concreto: #E4E5E0;
+    --papel: #F5F5F1;
+    --tinta: #1C2421;
+    --granito: #6F6C64;
+    --athos: #2350A4;
+    --athos-escuro: #183B7C;
+    --quadra: #2F5D3A;
+    --linha: #C9CAC3;
+    --wpp: #1F8F4E;
+    --pad: clamp(20px, 5vw, 64px);
+    --largura: 1280px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: var(--concreto); color: var(--tinta);
+    font-family: "Archivo", system-ui, sans-serif; font-variation-settings: "wdth" 100;
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--athos); outline-offset: 3px; }
+  .wrap { max-width: var(--largura); margin: 0 auto; padding: 0 var(--pad); }
+
+  /* Barra fixa */
+  .barra {
+    position: fixed; inset: 0 0 auto 0; z-index: 30; height: 64px;
+    display: flex; align-items: center; gap: 16px; justify-content: space-between;
+    padding: 12px var(--pad); color: #fff;
+    transition: background .3s, color .3s, box-shadow .3s;
+  }
+  .barra.solida { background: var(--papel); color: var(--tinta); box-shadow: 0 1px 0 var(--linha); }
+  .barra .marca { font-weight: 700; font-variation-settings: "wdth" 112; text-decoration: none; letter-spacing: -.01em; }
+  .barra .preco { font-variation-settings: "wdth" 88; opacity: .85; margin-left: auto; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+    background: var(--wpp); color: #fff; font-weight: 700; font-size: 16px;
+    padding: 12px 20px; border-radius: 999px; border: 0; cursor: pointer; white-space: nowrap;
+    font-family: inherit;
+  }
+  .btn:hover { background: #18773F; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn.pequeno { padding: 9px 16px; font-size: 15px; }
+  @media (max-width: 640px) { .barra .preco { display: none; } .barra .btn .texto-longo { display: none; } }
+
+  /* Capa */
+  .capa { position: relative; height: 100svh; min-height: 560px; color: #fff; overflow: hidden; background: #2a2f2c; }
+  .capa img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .capa::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,14,12,.45) 0%, rgba(10,14,12,0) 22%, rgba(10,14,12,0) 45%, rgba(10,14,12,.72) 100%); }
+  .capa .texto { position: absolute; z-index: 1; left: var(--pad); right: var(--pad); bottom: clamp(28px, 7vh, 72px); max-width: 980px; }
+  .capa .endereco { font-variation-settings: "wdth" 88; font-size: clamp(16px, 1.6vw, 20px); margin-bottom: 14px; opacity: .92; }
+  .capa h1 {
+    font-variation-settings: "wdth" 118; font-weight: 800; letter-spacing: -.025em;
+    font-size: clamp(38px, 6.4vw, 92px); line-height: .98; margin-bottom: 28px; text-wrap: balance;
+  }
+  .capa .acoes { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .capa .ver-fotos { color: #fff; background: rgba(255,255,255,.14); backdrop-filter: blur(6px); }
+  .capa .ver-fotos:hover { background: rgba(255,255,255,.24); }
+
+  /* Ficha rápida */
+  .numeros { background: var(--papel); border-bottom: 1px solid var(--linha); }
+  .numeros dl { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .numeros dl > div { padding: 22px 0 20px; border-right: 1px solid var(--linha); padding-left: 20px; }
+  .numeros dl > div:nth-child(4n+1) { padding-left: 0; }
+  .numeros dl > div:nth-child(4n) { border-right: 0; }
+  .numeros dl > div:nth-child(-n+4) { border-bottom: 1px solid var(--linha); }
+  .numeros dt { font-size: 14px; color: var(--granito); }
+  .numeros dd { font-variation-settings: "wdth" 112; font-weight: 700; font-size: clamp(20px, 2.4vw, 30px); letter-spacing: -.01em; line-height: 1.15; }
+  @media (max-width: 720px) {
+    .numeros dl { grid-template-columns: repeat(2, 1fr); }
+    .numeros dl > div, .numeros dl > div:nth-child(4n+1) { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--linha); }
+    .numeros dl > div:nth-child(odd) { border-right: 1px solid var(--linha); padding-right: 12px; }
+    .numeros dl > div:nth-child(even) { padding-left: 16px; }
+    .numeros dl > div:nth-last-child(-n+2) { border-bottom: 0; }
+  }
+
+  /* Navegação por ambientes */
+  .ambientes { position: sticky; top: 64px; z-index: 20; background: var(--concreto); border-bottom: 1px solid var(--linha); }
+  .ambientes ul { list-style: none; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 10px var(--pad); max-width: var(--largura); margin: 0 auto; }
+  .ambientes ul::-webkit-scrollbar { display: none; }
+  .ambientes a { display: block; text-decoration: none; white-space: nowrap; padding: 7px 14px; border-radius: 999px; font-size: 15px; color: var(--granito); }
+  .ambientes a:hover { color: var(--tinta); background: rgba(28,36,33,.06); }
+  .ambientes a.ativo { background: var(--tinta); color: #fff; }
+
+  /* Abertura */
+  .abertura { padding: clamp(56px, 9vw, 120px) 0 clamp(24px, 4vw, 48px); }
+  .abertura p { font-size: clamp(22px, 2.5vw, 32px); line-height: 1.32; max-width: 30em; font-variation-settings: "wdth" 96; letter-spacing: -.01em; text-wrap: pretty; }
+  .abertura .direto { margin-top: 24px; font-size: 17px; color: var(--quadra); font-weight: 600; }
+
+  /* Capítulos de fotos */
+  .capitulo { padding: clamp(40px, 6vw, 80px) 0; border-top: 1px solid var(--linha); }
+  .capitulo header { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px 48px; align-items: end; margin-bottom: 28px; }
+  .capitulo h2 { font-variation-settings: "wdth" 116; font-weight: 800; font-size: clamp(28px, 3.6vw, 48px); line-height: 1.02; letter-spacing: -.02em; text-wrap: balance; }
+  .capitulo header p { max-width: 38em; color: #333a36; text-wrap: pretty; }
+  @media (max-width: 860px) { .capitulo header { grid-template-columns: 1fr; } }
+
+  .fotos { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: clamp(120px, 15vw, 210px); gap: 8px; grid-auto-flow: dense; }
+  .fotos button { all: unset; cursor: zoom-in; position: relative; overflow: hidden; border-radius: 4px; background: #cfd0ca; grid-column: span 2; grid-row: span 2; }
+  .fotos button:focus-visible { outline: 3px solid var(--athos); outline-offset: 2px; }
+  .fotos button.destaque { grid-column: span 4; grid-row: span 3; }
+  .fotos button.retrato { grid-row: span 3; }
+  .fotos img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .fotos button:hover img { transform: scale(1.025); }
+  @media (prefers-reduced-motion: reduce) { .fotos img { transition: none; } }
+  .fotos .lupa { position: absolute; right: 10px; bottom: 10px; background: rgba(255,255,255,.88); color: var(--tinta); font-size: 13px; padding: 4px 10px; border-radius: 999px; opacity: 0; transition: opacity .2s; }
+  .fotos button:hover .lupa, .fotos button:focus-visible .lupa { opacity: 1; }
+
+  @media (max-width: 700px) {
+    .fotos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; margin: 0 calc(var(--pad) * -1); padding: 0 var(--pad); scrollbar-width: none; }
+    .fotos::-webkit-scrollbar { display: none; }
+    .fotos button, .fotos button.destaque, .fotos button.retrato { flex: 0 0 86%; height: 62vw; scroll-snap-align: center; }
+    .fotos button.retrato { flex-basis: 56%; height: 62vw; }
+    .fotos .lupa { opacity: 1; }
+    .dica { display: block !important; }
+  }
+  .dica { display: none; font-size: 14px; color: var(--granito); margin-top: 10px; }
+
+  .lista-capitulo { list-style: none; margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 32px; }
+  .lista-capitulo li { padding: 10px 0; border-bottom: 1px solid var(--linha); }
+
+  /* Ficha completa */
+  .ficha { padding: clamp(56px, 8vw, 104px) 0; background: var(--papel); }
+  .ficha h2 { font-variation-settings: "wdth" 116; font-weight: 800; font-size: clamp(28px, 3.6vw, 48px); letter-spacing: -.02em; margin-bottom: 32px; }
+  .ficha .colunas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .ficha h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; padding-bottom: 10px; border-bottom: 2px solid var(--tinta); }
+  .ficha ul { list-style: none; }
+  .ficha li { padding: 9px 0; border-bottom: 1px solid var(--linha); }
+  .ficha .comodidades { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .ficha .comodidades p { color: #333a36; }
+  @media (max-width: 900px) { .ficha .colunas, .ficha .comodidades { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* Convite final com o padrão de azulejo */
+  .convite {
+    position: relative; padding: clamp(64px, 10vw, 140px) 0; color: #fff;
+    background-color: var(--athos);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='84' viewBox='0 0 60 84'%3E%3Crect width='60' height='84' fill='%23F5F5F1'/%3E%3Cpath d='M0 0C22 14 22 70 0 84z' fill='%232350A4'/%3E%3Cpath d='M60 0C38 14 38 70 60 84z' fill='%232350A4'/%3E%3Cpath d='M30 0L22 6h16zM30 84l-8-6h16z' fill='%232350A4'/%3E%3C/svg%3E");
+    background-size: 60px 84px;
+  }
+  .convite .cartao { background: var(--papel); color: var(--tinta); max-width: 640px; padding: clamp(28px, 4vw, 52px); border-radius: 6px; }
+  .convite h2 { font-variation-settings: "wdth" 118; font-weight: 800; font-size: clamp(32px, 4.4vw, 56px); line-height: 1; letter-spacing: -.025em; margin-bottom: 18px; }
+  .convite p { margin-bottom: 26px; max-width: 32em; }
+  .convite .local { margin-top: 22px; font-size: 15px; color: var(--granito); }
+  .convite .local a { color: var(--athos-escuro); }
+  .convite .credito { margin-top: 14px; font-size: 13px; color: var(--granito); }
+
+  footer.rodape { padding: 28px 0 110px; font-size: 14px; color: var(--granito); }
+  footer.rodape .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+  /* Botão flutuante no celular */
+  .flutuante { display: none; }
+  @media (max-width: 640px) {
+    .flutuante { display: flex; position: fixed; z-index: 25; left: 16px; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); transform: translateY(140%); transition: transform .3s; }
+    .flutuante.visivel { transform: none; }
+  }
+
+  /* Visualizador de fotos */
+  dialog.galeria { border: 0; padding: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: #0f1311; color: #fff; }
+  dialog.galeria::backdrop { background: #0f1311; }
+  .galeria .trilho { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .galeria .trilho::-webkit-scrollbar { display: none; }
+  .galeria figure { flex: 0 0 100%; height: 100%; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px 16px 72px; }
+  .galeria figure img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .galeria .topo { position: absolute; inset: 0 0 auto 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; z-index: 2; background: linear-gradient(#0f1311, rgba(15,19,17,0)); }
+  .galeria .legenda { font-size: 15px; }
+  .galeria .legenda b { font-weight: 700; margin-right: 8px; }
+  .galeria .fechar, .galeria .seta { all: unset; cursor: pointer; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.12); }
+  .galeria .fechar:hover, .galeria .seta:hover { background: rgba(255,255,255,.24); }
+  .galeria .fechar:focus-visible, .galeria .seta:focus-visible { outline: 3px solid #fff; }
+  .galeria .seta { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; }
+  .galeria .seta.ant { left: 16px; } .galeria .seta.prox { right: 16px; }
+  .galeria .rodape-galeria { position: absolute; inset: auto 0 0 0; display: flex; justify-content: center; padding: 14px; z-index: 2; }
+  @media (max-width: 700px) { .galeria .seta { display: none; } }
+</style>
+</head>
+<body>
+
+<header class="barra" id="barra">
+  <a class="marca" href="#topo">SQS 207 Sul</a>
+  <span class="preco">R$ 2.470.000</span>
+  <a class="btn pequeno js-wpp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg><span>Marcar visita<span class="texto-longo"> pelo WhatsApp</span></span></a>
+</header>
+
+<main id="topo">
+  <section class="capa" aria-label="Apresentação">
+    <img src="fotos/01.jpg" srcset="fotos/01-m.jpg 900w, fotos/01.jpg 2000w" sizes="100vw" width="2000" height="1333" alt="Sala ampla com janelas em fita, piso de mármore e mesa de jantar" fetchpriority="high">
+    <div class="texto">
+      <p class="endereco">Apartamento 103, bloco C, SQS 207 Sul, Brasília</p>
+      <h1>3 quartos, sala ampla, vista livre e ventilação cruzada</h1>
+      <div class="acoes">
+        <a class="btn js-wpp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icone-wpp"/></svg>Marcar visita pelo WhatsApp</a>
+        <button class="btn ver-fotos" type="button" data-abrir="0">Ver as 32 fotos</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="numeros" aria-label="Números do apartamento">
+    <div class="wrap">
+      <dl>
+        <div><dt>Preço</dt><dd>R$ 2.470.000</dd></div>
+        <div><dt>Área útil</dt><dd>163 m²</dd></div>
+        <div><dt>Área total</dt><dd>245 m²</dd></div>
+        <div><dt>Condomínio</dt><dd>R$ 1.495</dd></div>
+        <div><dt>Quartos</dt><dd>3, sendo 2 suítes</dd></div>
+        <div><dt>Banheiros</dt><dd>4</dd></div>
+        <div><dt>Vaga</dt><dd>1, com armário</dd></div>
+        <div><dt>Idade do prédio</dt><dd>50 anos</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <nav class="ambientes" aria-label="Ambientes">
+    <ul id="menu-ambientes"></ul>
+  </nav>
+
+  <section class="abertura">
+    <div class="wrap">
+      <p>Raridade! Apartamento em uma das quadras mais tradicionais, arborizadas e singulares de Brasília, com compra direto com proprietário. Reúne sala ampla, ventilação cruzada e três quartos, hoje organizados como suíte, semi-suíte e escritório.</p>
+      <p class="direto">Oportunidade também na transação: venda, negociação e visitas direto com proprietário.</p>
+    </div>
+  </section>
+
+  <div id="capitulos"></div>
+
+  <section class="ficha" id="ficha">
+    <div class="wrap">
+      <h2>Ficha completa</h2>
+      <div class="colunas">
+        <div>
+          <h3>O apartamento</h3>
+          <ul>
+            <li>3 quartos, atualmente configurados como suíte, semi-suíte e escritório.</li>
+            <li>Quartos com iluminação perpendicular, sem paredes compartilhadas com apartamentos vizinhos.</li>
+            <li>Sala ampla com divisória planejada para integração com a cozinha.</li>
+            <li>Cozinha com armários planejados e decorada com azulejos originais de Athos Bulcão</li>
+            <li>Área de serviço espaçosa e ventilada</li>
+            <li>Dependência completa de serviço (quarto + banheiro)</li>
+            <li>Vista livre e ventilação cruzada.</li>
+            <li>4 banheiros ao total.</li>
+            <li>Revisão elétrica recente em todas as tomadas.</li>
+            <li>Ar-condicionado na suíte principal</li>
+            <li>1 vaga de garagem com armário privativo.</li>
+            <li>1º andar</li>
+          </ul>
+        </div>
+        <div>
+          <h3>O prédio</h3>
+          <ul>
+            <li>2 elevadores sociais e 1 de serviço.</li>
+            <li>Portaria 24 horas.</li>
+            <li>Bicicletário.</li>
+            <li>Condomínio preparado para instalação de ponto de recarga para carro elétrico</li>
+            <li>Acessibilidade no acesso ao pilotis e às áreas comuns</li>
+          </ul>
+        </div>
+        <div>
+          <h3>A quadra</h3>
+          <ul>
+            <li>Arquitetura inovadora e distinta de todas as quadras do Plano Piloto</li>
+            <li>Anel viário que circunda a quadra e concentra a circulação de carros distante do prédio</li>
+            <li>Parque infantil, quadra de esportes e eventos comunitários promovidos pela Prefeitura</li>
+            <li>Prefeitura ativa e atenta às manutenções da quadra</li>
+            <li>Comércio local diverso e bem equipado</li>
+            <li>Feira livre hortifruti às quartas-feiras</li>
+            <li>Próximo à Estação 106 Sul e Cine Brasília</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comodidades">
+        <div>
+          <h3>Áreas privativas</h3>
+          <p>Ar condicionado, área de serviço, closet, cozinha americana, cozinha independente, dependência de empregados, despensa, entrada de serviço, escritório, lavanderia, permite animais, sala de jantar e suítes.</p>
+        </div>
+        <div>
+          <h3>Áreas comuns</h3>
+          <p>Acesso para deficientes, área verde, bicicletário, câmeras de segurança, campo de futebol, elevador, portaria 24 horas, próximo ao metrô, quadra poliesportiva e vigilância 24h.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="convite" id="visita" aria-labelledby="titulo-visita">
+    <div class="wrap">
+      <div class="cartao">
+        <h2 id="titulo-visita">Venha conhecer o 103</h2>
+        <p>Mais espaço para a rotina que você já tem, em um endereço consolidado e cobiçado na Asa Sul. A visita é marcada direto com a família. Aproveite para dar uma volta na quadra.</p>
+        <a class="btn js-wpp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icone-wpp"/></svg>Marcar visita pelo WhatsApp</a>
+        <p class="local">SQS 207, Bloco C, Asa Sul, Brasília. <a href="https://www.google.com/maps/search/?api=1&amp;query=SQS+207+Bloco+C+Asa+Sul+Bras%C3%ADlia" target="_blank" rel="noopener">Ver no mapa</a></p>
+        <p class="credito">O fundo deste quadro lembra os azulejos de Athos Bulcão que decoram a cozinha.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>Venda direto com o proprietário, Alexandre Sadeck</span>
+    <span>Também anunciado no <a href="https://www.wimoveis.com.br/propriedades/sqs-207:-3-quartos-sala-ampla-vista-livre-e-3051737682.html" target="_blank" rel="noopener">Wimóveis</a>, código 3051737682</span>
+  </div>
+</footer>
+
+<a class="btn flutuante js-wpp" id="flutuante" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icone-wpp"/></svg>Marcar visita pelo WhatsApp</a>
+
+<dialog class="galeria" id="galeria" aria-label="Fotos do apartamento">
+  <div class="topo">
+    <p class="legenda" id="legenda" aria-live="polite"></p>
+    <button class="fechar" type="button" id="fechar" aria-label="Fechar fotos"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+  </div>
+  <button class="seta ant" type="button" id="ant" aria-label="Foto anterior"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="seta prox" type="button" id="prox" aria-label="Próxima foto"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="trilho" id="trilho"></div>
+  <div class="rodape-galeria"><a class="btn js-wpp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icone-wpp"/></svg>Marcar visita</a></div>
+</dialog>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icone-wpp" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol></svg>
+
+<script>
+(function () {
+  var TELEFONE = '5561992757575';
+  var MENSAGEM = 'Olá! Vi o anúncio do apartamento da 207 Sul e quero marcar uma visita.';
+  var link = 'https://wa.me/' + TELEFONE + '?text=' + encodeURIComponent(MENSAGEM);
+  document.querySelectorAll('.js-wpp').forEach(function (a) { a.href = link; });
+
+  // Capítulos na ordem das fotos do anúncio
+  var capitulos = [
+    { id: 'sala', menu: 'Sala', titulo: 'Uma sala para receber', texto: 'A sala tem divisória planejada que permite integrar a cozinha ou manter os ambientes separados.', fotos: [1, 2, 3, 4], alt: 'Sala' },
+    { id: 'cozinha', menu: 'Cozinha', titulo: 'Azulejos de Athos Bulcão na cozinha', texto: 'Na cozinha, móveis planejados, área de serviço bastante ventilada, além de quarto extra e banheiro de serviço.', lista: ['Cozinha com armários planejados e decorada com azulejos originais de Athos Bulcão', 'Área de serviço espaçosa e ventilada'], fotos: [5, 6, 7, 8, 9, 10, 11], alt: 'Cozinha e área de serviço' },
+    { id: 'quartos', menu: 'Quartos', titulo: 'Quartos sem parede com vizinhos', texto: 'Semi-suíte com banheiro compartilhado e escritório com móveis planejados, todos com iluminação natural excelente e perpendicular. Um diferencial merece atenção: nenhum dos quartos compartilha paredes com apartamentos vizinhos, garantindo o silêncio e privacidade que não se encontra em nenhuma outra quadra do Plano Piloto.', fotos: [12, 13, 14, 15, 16, 17, 18, 19], alt: 'Quartos, banheiros e escritório' },
+    { id: 'suite', menu: 'Suíte', titulo: 'Suíte com closet espaçoso', texto: 'Na área íntima, suíte principal com ar-condicionado e closet espaçoso.', fotos: [20, 21, 22, 23, 24], alt: 'Suíte principal, closet e banheiro' },
+    { id: 'servico', menu: 'Dependência', titulo: 'Dependência completa de serviço', texto: 'Quarto e banheiro de serviço.', fotos: [25, 26], alt: 'Dependência de serviço' },
+    { id: 'vista', menu: 'Vista', titulo: 'Vista livre para a área verde', texto: 'Vista livre e ventilação cruzada.', fotos: [27, 28], alt: 'Vista e pilotis' },
+    { id: 'predio', menu: 'Prédio', titulo: 'Hall, elevadores e garagem', texto: '', lista: ['2 elevadores sociais e 1 de serviço.', 'Portaria 24 horas.', 'Bicicletário.', 'Condomínio preparado para instalação de ponto de recarga para carro elétrico', 'Acessibilidade no acesso ao pilotis e às áreas comuns', '1 vaga de garagem com armário privativo.'], fotos: [29, 30, 31], alt: 'Hall de entrada e garagem' },
+    { id: 'quadra', menu: 'A quadra', titulo: 'Lá fora, a 207', texto: 'A 207 Sul foi projetada de forma inovadora pelo arquiteto Francisco Mendes Peloso e difere do padrão das superquadras tradicionais. Os prédios possuem formato de "H", garantindo que todas as unidades sejam de canto, com maior ventilação, iluminação natural e privacidade. A quadra é equipada com parque infantil e quadra de esportes, recebe feira de hortifruti às quartas-feiras e atividades comunitárias promovidas pela prefeitura, além de manutenção cuidadosa e recorrente. A estação de metrô 106 Sul e o Cine Brasília fazem parte do entorno.', fotos: [32], alt: 'A quadra vista de cima' }
+  ];
+  var retratos = [9, 11, 15, 17, 25];
+  var nomeDaFoto = {}; var ordem = [];
+  capitulos.forEach(function (c) { c.fotos.forEach(function (n) { nomeDaFoto[n] = c.menu; ordem.push(n); }); });
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+  var menu = document.getElementById('menu-ambientes');
+  var alvo = document.getElementById('capitulos');
+  capitulos.forEach(function (c) {
+    var li = document.createElement('li');
+    li.innerHTML = '<a href="#' + c.id + '">' + c.menu + '</a>';
+    menu.appendChild(li);
+
+    var sec = document.createElement('section');
+    sec.className = 'capitulo'; sec.id = c.id;
+    var html = '<div class="wrap"><header><h2>' + c.titulo + '</h2>' + (c.texto ? '<p>' + c.texto + '</p>' : '<span></span>') + '</header><div class="fotos">';
+    c.fotos.forEach(function (n, i) {
+      var classe = (i === 0 && c.fotos.length > 2) ? 'destaque' : (retratos.indexOf(n) > -1 ? 'retrato' : '');
+      if (c.fotos.length <= 2) classe = 'destaque';
+      html += '<button type="button" class="' + classe + '" data-abrir="' + ordem.indexOf(n) + '" aria-label="Ampliar foto ' + n + ' de 32: ' + c.alt + '">' +
+        '<img src="fotos/' + pad(n) + '-m.jpg" srcset="fotos/' + pad(n) + '-m.jpg 900w, fotos/' + pad(n) + '.jpg 2000w" sizes="(max-width: 700px) 86vw, 50vw" loading="lazy" decoding="async" alt="' + c.alt + '"><span class="lupa">Ampliar</span></button>';
+    });
+    html += '</div>';
+    if (c.fotos.length > 1) html += '<p class="dica">Arraste para o lado para ver mais.</p>';
+    if (c.lista) html += '<ul class="lista-capitulo">' + c.lista.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>';
+    html += '</div>';
+    sec.innerHTML = html;
+    alvo.appendChild(sec);
+  });
+  var liFicha = document.createElement('li'); liFicha.innerHTML = '<a href="#ficha">Ficha completa</a>'; menu.appendChild(liFicha);
+
+  // Ambientes ativos no menu
+  var links = menu.querySelectorAll('a');
+  var observador = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) {
+        var ativo = a.getAttribute('href') === '#' + e.target.id;
+        a.classList.toggle('ativo', ativo);
+        if (ativo) menu.scrollTo({ left: a.offsetLeft - menu.clientWidth / 2 + a.offsetWidth / 2, behavior: 'smooth' });
+      });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  capitulos.forEach(function (c) { observador.observe(document.getElementById(c.id)); });
+  observador.observe(document.getElementById('ficha'));
+
+  // Barra sólida e botão flutuante depois da capa
+  var barra = document.getElementById('barra');
+  var flutuante = document.getElementById('flutuante');
+  var capa = document.querySelector('.capa');
+  new IntersectionObserver(function (e) {
+    var fora = !e[0].isIntersecting;
+    barra.classList.toggle('solida', fora);
+    flutuante.classList.toggle('visivel', fora);
+  }, { threshold: 0.12 }).observe(capa);
+  var convite = document.getElementById('visita');
+  new IntersectionObserver(function (e) { if (e[0].isIntersecting) flutuante.classList.remove('visivel'); else if (barra.classList.contains('solida')) flutuante.classList.add('visivel'); }).observe(convite);
+
+  // Visualizador de fotos
+  var galeria = document.getElementById('galeria');
+  var trilho = document.getElementById('trilho');
+  var legenda = document.getElementById('legenda');
+  ordem.forEach(function (n, i) {
+    var f = document.createElement('figure');
+    f.innerHTML = '<img data-src="fotos/' + pad(n) + '.jpg" alt="' + nomeDaFoto[n] + ', foto ' + (i + 1) + ' de 32">';
+    trilho.appendChild(f);
+  });
+  var figuras = trilho.querySelectorAll('figure');
+  var atual = 0;
+  function carregar(i) {
+    [i - 1, i, i + 1].forEach(function (k) {
+      if (k < 0 || k >= figuras.length) return;
+      var img = figuras[k].querySelector('img');
+      if (!img.src) img.src = img.dataset.src;
+    });
+  }
+  function mostrar(i, suave) {
+    atual = Math.max(0, Math.min(figuras.length - 1, i));
+    carregar(atual);
+    trilho.scrollTo({ left: atual * trilho.clientWidth, behavior: suave ? 'smooth' : 'auto' });
+    atualizarLegenda();
+  }
+  function atualizarLegenda() { legenda.innerHTML = '<b>' + nomeDaFoto[ordem[atual]] + '</b>' + (atual + 1) + ' de 32'; }
+  trilho.addEventListener('scroll', function () {
+    var i = Math.round(trilho.scrollLeft / trilho.clientWidth);
+    if (i !== atual) { atual = i; carregar(i); atualizarLegenda(); }
+  }, { passive: true });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-abrir]');
+    if (!b) return;
+    galeria.showModal();
+    document.body.style.overflow = 'hidden';
+    mostrar(parseInt(b.dataset.abrir, 10), false);
+  });
+  function fechar() { galeria.close(); }
+  galeria.addEventListener('close', function () { document.body.style.overflow = ''; });
+  document.getElementById('fechar').addEventListener('click', fechar);
+  document.getElementById('ant').addEventListener('click', function () { mostrar(atual - 1, true); });
+  document.getElementById('prox').addEventListener('click', function () { mostrar(atual + 1, true); });
+  galeria.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); mostrar(atual + 1, true); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); mostrar(atual - 1, true); }
+  });
+  window.addEventListener('resize', function () { if (galeria.open) mostrar(atual, false); });
+})();
+</script>
+</body>
+</html>
