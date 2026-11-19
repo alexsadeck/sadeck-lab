@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+  <title>Azulejo azul e branco</title>
+  <rect width="320" height="320" fill="#fff"/>
+  <defs>
+    <path id="motivo" d="M0 0H160C128 22 98 104 92 160H68C62 104 32 22 0 0ZM0 160H68C62 216 32 298 0 320ZM92 160H160V320C128 298 98 216 92 160Z"/>
+  </defs>
+  <g fill="#2a2b81">
+    <use href="#motivo"/>
+    <use href="#motivo" transform="translate(160 320) scale(1 -1)"/>
+  </g>
+</svg>
